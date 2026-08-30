@@ -242,12 +242,6 @@ def predict():
         return redirect(url_for('home'))
 
 
-@app.route('/about')
-def about():
-    """Renders About page explaining the system architecture and dataset."""
-    return render_template('about.html', metadata=model_metadata)
-
-
 @app.route('/model-info')
 def model_info():
     """Renders Model Evaluation page with graphs and metrics."""

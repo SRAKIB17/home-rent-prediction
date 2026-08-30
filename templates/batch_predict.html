@@ -1,70 +1,325 @@
 {% extends "base.html" %}
 
-{% block title %}Batch CSV Rent Prediction{% endblock %}
+{% block title %}Batch CSV Rent Prediction - Mymensingh ML Model{% endblock %}
 
 {% block content %}
-<section class="hero-banner" style="padding: 2.2rem 2rem;">
-    <h1 class="hero-title">Batch Prediction from CSV File</h1>
-    <p class="hero-subtitle">
-        Upload a CSV file containing multiple house properties to predict monthly rent for all records at once with full data export.
+<!-- HERO BANNER -->
+<section class="hero-banner" style="padding: 2.5rem 2rem; margin-bottom: 2rem;">
+    <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(255, 255, 255, 0.18); backdrop-filter: blur(8px); padding: 0.4rem 1.1rem; border-radius: 30px; margin-bottom: 1rem; font-size: 0.88rem; font-weight: 600; border: 1px solid rgba(255, 255, 255, 0.3);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+        </svg>
+        <span>Instant Multi-Property Valuation Engine</span>
+    </div>
+    <h1 class="hero-title" style="margin-bottom: 0.6rem;">Batch Prediction from CSV File</h1>
+    <p class="hero-subtitle" style="margin-bottom: 1.25rem;">
+        Upload a CSV dataset of multiple real estate properties across Mymensingh to compute accurate monthly rental valuations at scale with 1-click enriched data export.
     </p>
+    <div class="hero-tags">
+        <span class="tag-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+            Model: {{ metadata.best_model if metadata and metadata.best_model else 'Gradient Boosting' }}
+        </span>
+        <span class="tag-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            Mymensingh 12 Prime Zones
+        </span>
+        <span class="tag-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;">
+                <polyline points="16 16 12 12 8 16"></polyline>
+                <line x1="12" y1="12" x2="12" y2="21"></line>
+                <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path>
+            </svg>
+            High-Throughput Inference
+        </span>
+    </div>
 </section>
 
-<div class="card" style="max-width: 800px; margin: 0 auto 2rem auto;">
-    <div class="card-header">
-        <h2 class="card-title">
-            <span>📁</span> Upload Properties CSV File
-        </h2>
-        <a href="{{ url_for('download_sample_csv') }}" class="btn-secondary" style="font-size: 0.82rem; padding: 0.4rem 0.8rem;">
-            <span>⬇️</span> Download Sample CSV Template
+<!-- 3-STEP WORKFLOW RIBBON -->
+<div class="batch-steps-grid">
+    <div class="batch-step-card">
+        <div class="batch-step-num">1</div>
+        <div class="batch-step-content">
+            <h4>Download Template</h4>
+            <p>Get the pre-formatted CSV template containing all 11 required columns.</p>
+        </div>
+    </div>
+    <div class="batch-step-card">
+        <div class="batch-step-num">2</div>
+        <div class="batch-step-content">
+            <h4>Upload Property Data</h4>
+            <p>Upload your CSV file containing any number of residential listings.</p>
+        </div>
+    </div>
+    <div class="batch-step-card">
+        <div class="batch-step-num">3</div>
+        <div class="batch-step-content">
+            <h4>Instant BDT Export</h4>
+            <p>Review interactive statistics and download the enriched valuation CSV.</p>
+        </div>
+    </div>
+</div>
+
+<!-- UPLOAD CARD -->
+<div class="card" style="max-width: 860px; margin: 0 auto 2.5rem auto;">
+    <div class="card-header" style="flex-wrap: wrap; gap: 1rem;">
+        <div>
+            <h2 class="card-title">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                </svg>
+                Upload Properties CSV File
+            </h2>
+            <p style="color: var(--text-muted); font-size: 0.88rem; margin-top: 0.25rem;">
+                Select or drag a <code>.csv</code> file with property specifications to compute valuations.
+            </p>
+        </div>
+        <a href="{{ url_for('download_sample_csv') }}" class="btn-secondary" style="font-size: 0.85rem; padding: 0.5rem 1rem; display: inline-flex; align-items: center; gap: 0.5rem;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span>Download Sample CSV</span>
         </a>
     </div>
 
-    <form action="{{ url_for('batch_predict') }}" method="POST" enctype="multipart/form-data">
-        <div style="background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: var(--radius-lg); padding: 2.5rem 1.5rem; text-align: center; margin-bottom: 1.5rem; transition: border-color 0.2s;">
-            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">📄</div>
-            <h3 style="font-size: 1.1rem; font-weight: 700; color: #1e293b; margin-bottom: 0.3rem;">Select CSV file from your computer</h3>
-            <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 1.2rem;">File must have columns: location, property_type, bedrooms, bathrooms, house_size, floor, total_floors, furnished, parking, balcony, age</p>
+    <form action="{{ url_for('batch_predict') }}" method="POST" enctype="multipart/form-data" id="batchForm">
+        <!-- Interactive Dropzone -->
+        <div class="batch-upload-zone" id="dropZone" onclick="document.getElementById('csv_file').click()">
+            <div class="upload-icon-pulse">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="16 16 12 12 8 16"></polyline>
+                    <line x1="12" y1="12" x2="12" y2="21"></line>
+                    <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path>
+                    <polyline points="16 16 12 12 8 16"></polyline>
+                </svg>
+            </div>
             
-            <input type="file" name="csv_file" id="csv_file" accept=".csv" required style="display: inline-block; font-size: 0.9rem; color: #475569;">
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: #1e293b; margin-bottom: 0.4rem;">
+                Drag and drop your CSV file here, or browse
+            </h3>
+            <p style="font-size: 0.88rem; color: #64748b; margin-bottom: 1.25rem; max-width: 500px; margin-left: auto; margin-right: auto;">
+                Supports standard comma-separated <code>.csv</code> formatted files up to 10,000 property records.
+            </p>
+            
+            <div class="file-input-wrapper">
+                <div class="btn-file-select">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="12" y1="18" x2="12" y2="12"></line>
+                        <line x1="9" y1="15" x2="15" y2="15"></line>
+                    </svg>
+                    <span>Browse CSV File</span>
+                </div>
+                <input type="file" name="csv_file" id="csv_file" accept=".csv" required onchange="handleFileSelected(this)">
+            </div>
+
+            <!-- Selected File Status Badge -->
+            <div class="file-selected-status" id="fileStatus">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span id="fileNameDisplay">Selected: filename.csv</span>
+            </div>
         </div>
 
-        <button type="submit" class="btn-submit" style="margin-top: 0;">
-            <span>⚡</span> Process & Predict All Records
+        <button type="submit" class="btn-submit" id="batchSubmitBtn" style="margin-top: 0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
+            <span>Process & Predict All Property Valuations</span>
         </button>
     </form>
 </div>
 
-<!-- Required Columns Guide Card -->
-<div class="card" style="max-width: 800px; margin: 0 auto;">
+<!-- REQUIRED COLUMNS GUIDE CARD -->
+<div class="card" style="max-width: 860px; margin: 0 auto 2rem auto;">
     <div class="card-header">
-        <h3 class="card-title" style="font-size: 1.1rem;">
-            <span>ℹ️</span> CSV Columns Format Guide
+        <h3 class="card-title" style="font-size: 1.15rem;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            CSV Columns Format & Specification Guide
         </h3>
+        <span class="tag-badge" style="background: #f1f5f9; color: #475569; border-color: #cbd5e1;">
+            11 Expected Headers
+        </span>
     </div>
+    
     <div style="overflow-x: auto;">
         <table class="custom-table" style="font-size: 0.88rem; margin: 0;">
             <thead>
                 <tr>
-                    <th>Column Name</th>
-                    <th>Type / Values</th>
-                    <th>Example</th>
+                    <th style="width: 22%;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="vertical-align: middle; margin-right: 4px;">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="3" y1="9" x2="21" y2="9"></line>
+                            <line x1="9" y1="21" x2="9" y2="9"></line>
+                        </svg>
+                        Column Header
+                    </th>
+                    <th style="width: 40%;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="vertical-align: middle; margin-right: 4px;">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                        </svg>
+                        Allowed Values / Data Type
+                    </th>
+                    <th style="width: 20%;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="vertical-align: middle; margin-right: 4px;">
+                            <polyline points="9 11 12 14 22 4"></polyline>
+                            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                        </svg>
+                        Mymensingh Example
+                    </th>
+                    <th style="width: 18%;">Default Fallback</th>
                 </tr>
             </thead>
             <tbody>
-                <tr><td><code>location</code></td><td>Charpara, Kachijhuli, Town Hall, Shehora, etc.</td><td>Charpara</td></tr>
-                <tr><td><code>property_type</code></td><td>Apartment, House, Duplex, Studio</td><td>Apartment</td></tr>
-                <tr><td><code>bedrooms</code></td><td>Positive Integer (1-15)</td><td>3</td></tr>
-                <tr><td><code>bathrooms</code></td><td>Positive Integer (1-15)</td><td>2</td></tr>
-                <tr><td><code>house_size</code></td><td>Square Feet (100-10000)</td><td>1200</td></tr>
-                <tr><td><code>floor</code></td><td>Floor number (1, 2, ...)</td><td>4</td></tr>
-                <tr><td><code>total_floors</code></td><td>Total floors of building</td><td>8</td></tr>
-                <tr><td><code>furnished</code></td><td>Yes / No</td><td>No</td></tr>
-                <tr><td><code>parking</code></td><td>Yes / No</td><td>Yes</td></tr>
-                <tr><td><code>balcony</code></td><td>Yes / No</td><td>Yes</td></tr>
-                <tr><td><code>age</code></td><td>Building age in years (0-60)</td><td>5</td></tr>
+                <tr>
+                    <td><code>location</code></td>
+                    <td><span class="col-badge col-badge-loc">Mymensingh Area String</span></td>
+                    <td><strong>Charpara</strong></td>
+                    <td>Required</td>
+                </tr>
+                <tr>
+                    <td><code>property_type</code></td>
+                    <td><span class="col-badge">Apartment, House, Duplex, Studio</span></td>
+                    <td>Apartment</td>
+                    <td>Required</td>
+                </tr>
+                <tr>
+                    <td><code>bedrooms</code></td>
+                    <td><span class="col-badge col-badge-num">Positive Integer (1-15)</span></td>
+                    <td>3</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td><code>bathrooms</code></td>
+                    <td><span class="col-badge col-badge-num">Positive Integer (1-15)</span></td>
+                    <td>2</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td><code>house_size</code></td>
+                    <td><span class="col-badge col-badge-num">Square Feet (100-10000)</span></td>
+                    <td>1250</td>
+                    <td>1000.0</td>
+                </tr>
+                <tr>
+                    <td><code>floor</code></td>
+                    <td><span class="col-badge col-badge-num">Floor Number (1, 2, ...)</span></td>
+                    <td>4</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td><code>total_floors</code></td>
+                    <td><span class="col-badge col-badge-num">Total Building Floors</span></td>
+                    <td>7</td>
+                    <td>6</td>
+                </tr>
+                <tr>
+                    <td><code>furnished</code></td>
+                    <td><span class="col-badge col-badge-bool">Yes / No</span></td>
+                    <td>Yes</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td><code>parking</code></td>
+                    <td><span class="col-badge col-badge-bool">Yes / No</span></td>
+                    <td>Yes</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td><code>balcony</code></td>
+                    <td><span class="col-badge col-badge-bool">Yes / No</span></td>
+                    <td>Yes</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td><code>age</code></td>
+                    <td><span class="col-badge col-badge-num">Building Age (Years: 0-60)</span></td>
+                    <td>3</td>
+                    <td>5</td>
+                </tr>
             </tbody>
         </table>
     </div>
 </div>
 {% endblock %}
+
+{% block scripts %}
+<script>
+function handleFileSelected(input) {
+    const statusDiv = document.getElementById('fileStatus');
+    const nameDisplay = document.getElementById('fileNameDisplay');
+    if (input.files && input.files[0]) {
+        const file = input.files[0];
+        nameDisplay.textContent = `Ready to analyze: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+        statusDiv.style.display = 'inline-flex';
+    }
+}
+
+// Drag & drop visual effects
+const dropZone = document.getElementById('dropZone');
+if (dropZone) {
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropZone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropZone.classList.add('dragover');
+        }, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropZone.classList.remove('dragover');
+        }, false);
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        if (files.length) {
+            const input = document.getElementById('csv_file');
+            input.files = files;
+            handleFileSelected(input);
+        }
+    });
+}
+
+// Form submit loading spinner
+const batchForm = document.getElementById('batchForm');
+const batchSubmitBtn = document.getElementById('batchSubmitBtn');
+if (batchForm && batchSubmitBtn) {
+    batchForm.addEventListener('submit', () => {
+        batchSubmitBtn.disabled = true;
+        batchSubmitBtn.innerHTML = `
+            <svg class="spinner" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="animation: spin 1s linear infinite; margin-right: 8px;">
+                <line x1="12" y1="2" x2="12" y2="6"></line>
+                <line x1="12" y1="18" x2="12" y2="22"></line>
+                <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+                <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+                <line x1="2" y1="12" x2="6" y2="12"></line>
+                <line x1="18" y1="12" x2="22" y2="12"></line>
+            </svg>
+            Processing Batch Predictions...
+        `;
+    });
+}
+</script>
+{% endblock %}
+
