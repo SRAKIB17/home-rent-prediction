@@ -1,23 +1,151 @@
 {% extends "base.html" %}
 
-{% block title %}Model Performance & Analytics{% endblock %}
+{% block title %}Model Performance & Analytics Dashboard{% endblock %}
 
 {% block content %}
-<section class="hero-banner" style="padding: 2.2rem 2rem;">
-    <h1 class="hero-title">Model Performance & Analytics</h1>
-    <p class="hero-subtitle">
-        Empirical evaluation of regression algorithms trained on residential rental data in Dhaka.
+<!-- HERO BANNER -->
+<section class="hero-banner" style="padding: 2.5rem 2rem; margin-bottom: 2rem;">
+    <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(8px); padding: 0.4rem 1rem; border-radius: 30px; margin-bottom: 1rem; font-size: 0.85rem; font-weight: 600; border: 1px solid rgba(255, 255, 255, 0.25);">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+        </svg>
+        <span>Scikit-Learn ML Evaluation Suite</span>
+    </div>
+    <h1 class="hero-title" style="margin-bottom: 0.6rem;">Model Performance & Analytics</h1>
+    <p class="hero-subtitle" style="margin-bottom: 1.25rem;">
+        Empirical evaluation, cross-algorithm benchmarking, and diagnostic visualizations on Dhaka residential rental data.
     </p>
+    <div class="hero-tags">
+        <span class="tag-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            Trained on 80/20 Test Split
+        </span>
+        <span class="tag-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+            Active Model: {{ metadata.best_model if metadata and metadata.best_model else 'Gradient Boosting' }}
+        </span>
+        <span class="tag-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;">
+                <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+                <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+            </svg>
+            {{ metadata.dataset_size if metadata and metadata.dataset_size else 1600 }} Samples
+        </span>
+    </div>
 </section>
 
-<!-- COMPARISON TABLE CARD -->
+<!-- TOP KPI SUMMARY CARDS -->
+<div class="kpi-grid">
+    <!-- Card 1: Active Production Model -->
+    <div class="kpi-card" style="--kpi-accent: #10b981; --kpi-bg: #ecfdf5;">
+        <div class="kpi-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="8" r="7"></circle>
+                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+            </svg>
+        </div>
+        <div class="kpi-content">
+            <div class="kpi-title">Production Champion</div>
+            <div class="kpi-value" style="font-size: 1.25rem; color: #065f46;">
+                {{ metadata.best_model if metadata and metadata.best_model else 'Gradient Boosting' }}
+            </div>
+            <div class="kpi-sub">
+                <span class="kpi-badge">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Top Ranked
+                </span>
+                <span>Active engine</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 2: R2 Score (Accuracy) -->
+    <div class="kpi-card" style="--kpi-accent: #2563eb; --kpi-bg: #eff6ff;">
+        <div class="kpi-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+            </svg>
+        </div>
+        <div class="kpi-content">
+            <div class="kpi-title">R² Score (Variance)</div>
+            <div class="kpi-value" style="color: #1e40af;">
+                {{ "{:.2f}%".format((metadata.r2_score if metadata and metadata.r2_score else 0.9694) * 100) }}
+            </div>
+            <div class="kpi-sub">
+                <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #2563eb;">
+                    R² = {{ "{:.4f}".format(metadata.r2_score if metadata and metadata.r2_score else 0.9694) }}
+                </span>
+                <span>Goodness of Fit</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 3: MAE -->
+    <div class="kpi-card" style="--kpi-accent: #8b5cf6; --kpi-bg: #f5f3ff;">
+        <div class="kpi-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <circle cx="12" cy="12" r="6"></circle>
+                <circle cx="12" cy="12" r="2"></circle>
+            </svg>
+        </div>
+        <div class="kpi-content">
+            <div class="kpi-title">Mean Absolute Error</div>
+            <div class="kpi-value" style="color: #5b21b6;">
+                ৳ {{ "{:,.0f}".format(metadata.mae if metadata and metadata.mae else 2615) }}
+            </div>
+            <div class="kpi-sub">
+                <span>Avg deviation per pred.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 4: RMSE -->
+    <div class="kpi-card" style="--kpi-accent: #f59e0b; --kpi-bg: #fffbeb;">
+        <div class="kpi-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                <polyline points="17 6 23 6 23 12"></polyline>
+            </svg>
+        </div>
+        <div class="kpi-content">
+            <div class="kpi-title">Root Mean Squared Error</div>
+            <div class="kpi-value" style="color: #92400e;">
+                ৳ {{ "{:,.0f}".format(metadata.rmse if metadata and metadata.rmse else 3586) }}
+            </div>
+            <div class="kpi-sub">
+                <span>Penalizes outlier errors</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ALGORITHM COMPARISON LEADERBOARD -->
 <div class="card" style="margin-bottom: 2rem;">
     <div class="card-header">
         <h2 class="card-title">
-            <span>📈</span> Algorithm Performance Comparison
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="20" x2="18" y2="10"></line>
+                <line x1="12" y1="20" x2="12" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="14"></line>
+            </svg>
+            Cross-Algorithm Performance Leaderboard
         </h2>
         <span class="tag-badge" style="background: #e0f2fe; color: #0369a1; border-color: #bae6fd;">
-            Evaluated on 20% Test Split
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+            </svg>
+            20% Unseen Test Set
         </span>
     </div>
 
@@ -25,101 +153,491 @@
         <table class="custom-table">
             <thead>
                 <tr>
-                    <th>Algorithm</th>
+                    <th style="width: 50px;">Rank</th>
+                    <th>Regression Algorithm</th>
+                    <th>R² Score (Accuracy)</th>
                     <th>Mean Absolute Error (MAE)</th>
-                    <th>Root Mean Squared Error (RMSE)</th>
-                    <th>R² Score</th>
-                    <th>Accuracy %</th>
-                    <th>Status</th>
+                    <th>Root Mean Sq Error (RMSE)</th>
+                    <th>Accuracy % Progress</th>
+                    <th>Deployment Status</th>
                 </tr>
             </thead>
             <tbody>
-                {% if metadata.models_comparison %}
+                {% if metadata and metadata.models_comparison %}
                     {% for model in metadata.models_comparison %}
-                        <tr {% if model.Model == metadata.best_model %}style="background: #f0fdf4; font-weight: 600;"{% endif %}>
+                        <tr class="{% if model.Model == metadata.best_model %}champion-row{% endif %}">
                             <td>
-                                {{ model.Model }}
-                                {% if model.Model == metadata.best_model %}
-                                    <span class="badge-best">🏆 Selected</span>
-                                {% endif %}
+                                <span class="rank-badge rank-{{ loop.index }}">
+                                    {{ loop.index }}
+                                </span>
+                            </td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <strong style="color: var(--text-main);">{{ model.Model }}</strong>
+                                    {% if model.Model == metadata.best_model %}
+                                        <span class="badge-best">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                                <polyline points="20 6 9 17 4 12"></polyline>
+                                            </svg>
+                                            Selected Champion
+                                        </span>
+                                    {% endif %}
+                                </div>
+                            </td>
+                            <td>
+                                <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #1e293b;">
+                                    {{ "{:.4f}".format(model.R2) }}
+                                </span>
                             </td>
                             <td>৳ {{ "{:,.2f}".format(model.MAE) }}</td>
                             <td>৳ {{ "{:,.2f}".format(model.RMSE) }}</td>
-                            <td>{{ "{:.4f}".format(model.R2) }}</td>
-                            <td>{{ "{:.2f}%".format(model.R2 * 100) }}</td>
+                            <td style="min-width: 140px;">
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <div class="progress-track" style="flex: 1;">
+                                        <div class="progress-fill" style="width: {{ [0, [100, model.R2 * 100]|min]|max }}%;"></div>
+                                    </div>
+                                    <span style="font-size: 0.8rem; font-weight: 700; font-family: 'JetBrains Mono', monospace;">
+                                        {{ "{:.1f}%".format(model.R2 * 100) }}
+                                    </span>
+                                </div>
+                            </td>
                             <td>
                                 {% if model.Model == metadata.best_model %}
-                                    <span style="color: #16a34a; font-weight: 700;">Production Model</span>
+                                    <span style="display: inline-flex; align-items: center; gap: 0.35rem; color: #16a34a; font-weight: 700; font-size: 0.85rem;">
+                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <polyline points="12 6 12 12 14 14"></polyline>
+                                        </svg>
+                                        Active in Production
+                                    </span>
                                 {% else %}
-                                    <span style="color: #64748b;">Evaluated</span>
+                                    <span style="color: #64748b; font-size: 0.85rem;">Benchmarked</span>
                                 {% endif %}
                             </td>
                         </tr>
                     {% endfor %}
                 {% else %}
-                    <tr>
-                        <td>Random Forest Regressor</td>
-                        <td>৳ 1,950.00</td>
-                        <td>৳ 2,850.00</td>
-                        <td>0.9320</td>
-                        <td>93.20%</td>
-                        <td><span class="badge-best">🏆 Selected</span></td>
+                    <tr class="champion-row">
+                        <td><span class="rank-badge rank-1">1</span></td>
+                        <td>
+                            <strong>Gradient Boosting Regressor</strong>
+                            <span class="badge-best">🏆 Selected</span>
+                        </td>
+                        <td>0.9694</td>
+                        <td>৳ 2,614.81</td>
+                        <td>৳ 3,586.07</td>
+                        <td>
+                            <div class="progress-track" style="width: 100px;">
+                                <div class="progress-fill" style="width: 96.94%;"></div>
+                            </div>
+                        </td>
+                        <td><span style="color: #16a34a; font-weight: 700;">Active in Production</span></td>
                     </tr>
                 {% endif %}
             </tbody>
         </table>
     </div>
 
-    <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: var(--radius-md); padding: 1rem 1.25rem; font-size: 0.9rem; color: #1e40af;">
-        💡 <strong>Selection Rationale:</strong> The model with the highest coefficient of determination (<strong>R² Score</strong>) and lowest Root Mean Squared Error (<strong>RMSE</strong>) is automatically deployed as the active inference engine.
+    <!-- RATIONALE NOTICE -->
+    <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: var(--radius-md); padding: 1.1rem 1.25rem; font-size: 0.9rem; color: #1e40af; display: flex; align-items: flex-start; gap: 0.75rem; margin-top: 1rem;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+        <div>
+            <strong>Automated Model Selection Strategy:</strong> 
+            The system executes automated hyperparameter and cross-algorithm evaluation during <code>train.py</code> execution. The model achieving the maximum Coefficient of Determination (<strong>R² Score</strong>) combined with minimum Root Mean Squared Error (<strong>RMSE</strong>) is automatically serialized into <code>model/rent_prediction_model.pkl</code> and loaded into the Flask runtime.
+        </div>
     </div>
 </div>
 
-<!-- VISUALIZATION GRAPHS GALLERY -->
-<div class="card">
+<!-- FEATURE IMPORTANCE BREAKDOWN -->
+{% if metadata and metadata.top_features %}
+<div class="card" style="margin-bottom: 2rem;">
     <div class="card-header">
         <h2 class="card-title">
-            <span>📊</span> Evaluation & Exploratory Visualizations
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+            </svg>
+            Key Feature Importance Drivers
         </h2>
+        <span class="tag-badge" style="background: #f1f5f9; color: #475569; border-color: #cbd5e1;">
+            Gini / Gradient Variance Contribution
+        </span>
+    </div>
+
+    <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 1.25rem;">
+        Relative weights calculated from the production model indicating how much each characteristic influences the final predicted monthly rent in Dhaka.
+    </p>
+
+    <div class="feature-bars-grid">
+        {% for feat in metadata.top_features %}
+            <div class="feature-bar-item">
+                <div class="feature-info">
+                    <span class="feature-name">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                        {{ feat.Feature.replace('_', ' ').title() }}
+                    </span>
+                    <span class="feature-pct">{{ "{:.1f}%".format(feat.Importance * 100) }}</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill" style="width: {{ [0, [100, feat.Importance * 100 * 1.3]|min]|max }}%;"></div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<!-- VISUALIZATION GRAPHS GALLERY -->
+<div class="card" style="margin-bottom: 2rem;">
+    <div class="card-header">
+        <h2 class="card-title">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="3" y1="9" x2="21" y2="9"></line>
+                <line x1="9" y1="21" x2="9" y2="9"></line>
+            </svg>
+            Exploratory Data & Evaluation Charts Gallery
+        </h2>
+        <span class="tag-badge" style="background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe;">
+            High-Resolution Visual Diagnostics
+        </span>
     </div>
 
     <div class="graph-grid">
         
         <!-- Graph 1 -->
         <div class="graph-card">
-            <h3 class="graph-title">1. Actual vs Predicted Rent</h3>
-            <img src="{{ url_for('static', filename='graphs/actual_vs_predicted.png') }}" alt="Actual vs Predicted Rent" onerror="this.src='https://via.placeholder.com/600x450?text=Run+train.py+to+generate+graphs'">
-            <p class="graph-desc">Compares ground-truth rental prices against predictions. Points hugging the dashed line indicate high model precision.</p>
+            <div class="graph-header-top">
+                <h3 class="graph-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 8v8M8 12h8"></path>
+                    </svg>
+                    Actual vs. Predicted Rent
+                </h3>
+                <span class="graph-badge">Model Fit</span>
+            </div>
+            <div class="graph-img-wrapper" onclick="openImageModal('{{ url_for('static', filename='graphs/actual_vs_predicted.png') }}', 'Actual vs. Predicted Rent Scatter Plot')">
+                <img src="{{ url_for('static', filename='graphs/actual_vs_predicted.png') }}" alt="Actual vs Predicted Rent" onerror="this.src='https://via.placeholder.com/600x450?text=Run+train.py+to+generate+graphs'">
+                <div class="graph-overlay">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        <line x1="11" y1="8" x2="11" y2="14"></line>
+                        <line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                    <span>Click to Zoom</span>
+                </div>
+            </div>
+            <p class="graph-desc">Scatter distribution of actual testing prices vs predicted model values. Tight clustering along the 45-degree reference line confirms high prediction precision across both modest and premium rental brackets.</p>
+            <div class="graph-footer-actions">
+                <span style="font-size: 0.78rem; color: #64748b; font-weight: 500;">Diagnostic Type: Parity Plot</span>
+                <button type="button" class="btn-icon-link" onclick="openImageModal('{{ url_for('static', filename='graphs/actual_vs_predicted.png') }}', 'Actual vs. Predicted Rent')">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 3 21 3 21 9"></polyline>
+                        <polyline points="9 21 3 21 3 15"></polyline>
+                        <line x1="21" y1="3" x2="14" y2="10"></line>
+                        <line x1="3" y1="21" x2="10" y2="14"></line>
+                    </svg>
+                    Expand View
+                </button>
+            </div>
         </div>
 
         <!-- Graph 2 -->
         <div class="graph-card">
-            <h3 class="graph-title">2. Feature Importance</h3>
-            <img src="{{ url_for('static', filename='graphs/feature_importance.png') }}" alt="Feature Importance" onerror="this.src='https://via.placeholder.com/600x450?text=Run+train.py+to+generate+graphs'">
-            <p class="graph-desc">Identifies key drivers influencing rental price (e.g. house size, location, bedrooms).</p>
+            <div class="graph-header-top">
+                <h3 class="graph-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2">
+                        <path d="M12 20V10M18 20V4M6 20v-4"></path>
+                    </svg>
+                    Feature Importance Ranking
+                </h3>
+                <span class="graph-badge">Explainability</span>
+            </div>
+            <div class="graph-img-wrapper" onclick="openImageModal('{{ url_for('static', filename='graphs/feature_importance.png') }}', 'Feature Importance Analysis')">
+                <img src="{{ url_for('static', filename='graphs/feature_importance.png') }}" alt="Feature Importance" onerror="this.src='https://via.placeholder.com/600x450?text=Run+train.py+to+generate+graphs'">
+                <div class="graph-overlay">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        <line x1="11" y1="8" x2="11" y2="14"></line>
+                        <line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                    <span>Click to Zoom</span>
+                </div>
+            </div>
+            <p class="graph-desc">Displays mathematical feature weightings. House square footage dominates rent pricing, followed by upscale location premiums (Gulshan, Banani, Dhanmondi) and furnishing status.</p>
+            <div class="graph-footer-actions">
+                <span style="font-size: 0.78rem; color: #64748b; font-weight: 500;">Diagnostic Type: Gini Importance</span>
+                <button type="button" class="btn-icon-link" onclick="openImageModal('{{ url_for('static', filename='graphs/feature_importance.png') }}', 'Feature Importance Ranking')">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 3 21 3 21 9"></polyline>
+                        <polyline points="9 21 3 21 3 15"></polyline>
+                        <line x1="21" y1="3" x2="14" y2="10"></line>
+                        <line x1="3" y1="21" x2="10" y2="14"></line>
+                    </svg>
+                    Expand View
+                </button>
+            </div>
         </div>
 
         <!-- Graph 3 -->
         <div class="graph-card">
-            <h3 class="graph-title">3. Rent Price Distribution</h3>
-            <img src="{{ url_for('static', filename='graphs/rent_distribution.png') }}" alt="Rent Distribution" onerror="this.src='https://via.placeholder.com/600x450?text=Run+train.py+to+generate+graphs'">
-            <p class="graph-desc">Histogram showing market rent distribution across Dhaka areas in the dataset.</p>
+            <div class="graph-header-top">
+                <h3 class="graph-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    </svg>
+                    Monthly Rent Distribution
+                </h3>
+                <span class="graph-badge">Market Analysis</span>
+            </div>
+            <div class="graph-img-wrapper" onclick="openImageModal('{{ url_for('static', filename='graphs/rent_distribution.png') }}', 'Monthly Rent Price Distribution')">
+                <img src="{{ url_for('static', filename='graphs/rent_distribution.png') }}" alt="Rent Distribution" onerror="this.src='https://via.placeholder.com/600x450?text=Run+train.py+to+generate+graphs'">
+                <div class="graph-overlay">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        <line x1="11" y1="8" x2="11" y2="14"></line>
+                        <line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                    <span>Click to Zoom</span>
+                </div>
+            </div>
+            <p class="graph-desc">Histogram & Kernel Density Estimation (KDE) demonstrating natural Dhaka rental price distribution with right-skew representing high-end luxury properties.</p>
+            <div class="graph-footer-actions">
+                <span style="font-size: 0.78rem; color: #64748b; font-weight: 500;">Diagnostic Type: Density & Histogram</span>
+                <button type="button" class="btn-icon-link" onclick="openImageModal('{{ url_for('static', filename='graphs/rent_distribution.png') }}', 'Monthly Rent Distribution')">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 3 21 3 21 9"></polyline>
+                        <polyline points="9 21 3 21 3 15"></polyline>
+                        <line x1="21" y1="3" x2="14" y2="10"></line>
+                        <line x1="3" y1="21" x2="10" y2="14"></line>
+                    </svg>
+                    Expand View
+                </button>
+            </div>
         </div>
 
         <!-- Graph 4 -->
         <div class="graph-card">
-            <h3 class="graph-title">4. Numerical Feature Correlation Heatmap</h3>
-            <img src="{{ url_for('static', filename='graphs/correlation_heatmap.png') }}" alt="Correlation Heatmap" onerror="this.src='https://via.placeholder.com/600x450?text=Run+train.py+to+generate+graphs'">
-            <p class="graph-desc">Pearson correlation coefficient showing strong positive alignment with house size & bedrooms.</p>
+            <div class="graph-header-top">
+                <h3 class="graph-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                    Correlation Heatmap
+                </h3>
+                <span class="graph-badge">Multivariate</span>
+            </div>
+            <div class="graph-img-wrapper" onclick="openImageModal('{{ url_for('static', filename='graphs/correlation_heatmap.png') }}', 'Correlation Heatmap Matrix')">
+                <img src="{{ url_for('static', filename='graphs/correlation_heatmap.png') }}" alt="Correlation Heatmap" onerror="this.src='https://via.placeholder.com/600x450?text=Run+train.py+to+generate+graphs'">
+                <div class="graph-overlay">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        <line x1="11" y1="8" x2="11" y2="14"></line>
+                        <line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                    <span>Click to Zoom</span>
+                </div>
+            </div>
+            <p class="graph-desc">Pearson correlation coefficient matrix revealing positive dependencies between house size, bedrooms, floor height, and resulting monthly rent prices.</p>
+            <div class="graph-footer-actions">
+                <span style="font-size: 0.78rem; color: #64748b; font-weight: 500;">Diagnostic Type: Pearson Matrix</span>
+                <button type="button" class="btn-icon-link" onclick="openImageModal('{{ url_for('static', filename='graphs/correlation_heatmap.png') }}', 'Correlation Heatmap')">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 3 21 3 21 9"></polyline>
+                        <polyline points="9 21 3 21 3 15"></polyline>
+                        <line x1="21" y1="3" x2="14" y2="10"></line>
+                        <line x1="3" y1="21" x2="10" y2="14"></line>
+                    </svg>
+                    Expand View
+                </button>
+            </div>
         </div>
 
-        <!-- Graph 5 -->
+        <!-- Graph 5: Full Width Comparison Chart -->
         <div class="graph-card" style="grid-column: 1 / -1;">
-            <h3 class="graph-title">5. Cross-Algorithm Comparison Chart</h3>
-            <img src="{{ url_for('static', filename='graphs/model_comparison.png') }}" alt="Model Comparison" onerror="this.src='https://via.placeholder.com/600x450?text=Run+train.py+to+generate+graphs'">
-            <p class="graph-desc">Visual comparison of R² Score (higher is better) and RMSE (lower is better) across tested algorithms.</p>
+            <div class="graph-header-top">
+                <h3 class="graph-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2">
+                        <line x1="12" y1="20" x2="12" y2="10"></line>
+                        <line x1="18" y1="20" x2="18" y2="4"></line>
+                        <line x1="6" y1="20" x2="6" y2="16"></line>
+                    </svg>
+                    Cross-Algorithm Multi-Metric Comparison
+                </h3>
+                <span class="graph-badge">Benchmark Chart</span>
+            </div>
+            <div class="graph-img-wrapper" onclick="openImageModal('{{ url_for('static', filename='graphs/model_comparison.png') }}', 'Algorithm Multi-Metric Comparison')">
+                <img src="{{ url_for('static', filename='graphs/model_comparison.png') }}" alt="Model Comparison" onerror="this.src='https://via.placeholder.com/600x450?text=Run+train.py+to+generate+graphs'">
+                <div class="graph-overlay">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        <line x1="11" y1="8" x2="11" y2="14"></line>
+                        <line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                    <span>Click to Zoom</span>
+                </div>
+            </div>
+            <p class="graph-desc">Side-by-side metric comparison evaluating R² Score (higher is better) against Root Mean Squared Error (lower is better). Visual evidence why ensemble methods outperform linear baselines.</p>
+            <div class="graph-footer-actions">
+                <span style="font-size: 0.78rem; color: #64748b; font-weight: 500;">Diagnostic Type: Multi-Bar Benchmark</span>
+                <button type="button" class="btn-icon-link" onclick="openImageModal('{{ url_for('static', filename='graphs/model_comparison.png') }}', 'Algorithm Multi-Metric Comparison')">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 3 21 3 21 9"></polyline>
+                        <polyline points="9 21 3 21 3 15"></polyline>
+                        <line x1="21" y1="3" x2="14" y2="10"></line>
+                        <line x1="3" y1="21" x2="10" y2="14"></line>
+                    </svg>
+                    Expand View
+                </button>
+            </div>
         </div>
 
     </div>
 </div>
+
+<!-- TECHNICAL EVALUATION GLOSSARY & METHODOLOGY -->
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+            Machine Learning Evaluation Methodology & Metrics Glossary
+        </h2>
+    </div>
+
+    <div class="glossary-grid">
+        <!-- Glossary Item 1 -->
+        <div class="glossary-card">
+            <div class="glossary-header">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M12 6v6l4 2"></path>
+                </svg>
+                Coefficient of Determination (R²)
+            </div>
+            <div class="glossary-body">
+                Represents the percentage of total variance in rent explained by features (size, area, rooms). A score of <strong>{{ "{:.2f}%".format((metadata.r2_score if metadata and metadata.r2_score else 0.9694) * 100) }}</strong> confirms exceptional model capability.
+            </div>
+        </div>
+
+        <!-- Glossary Item 2 -->
+        <div class="glossary-card">
+            <div class="glossary-header">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <circle cx="12" cy="12" r="4"></circle>
+                </svg>
+                Mean Absolute Error (MAE)
+            </div>
+            <div class="glossary-body">
+                Calculates average linear distance between ground truth and predicted rent: <code>(1/n) Σ |y - ŷ|</code>. On average, predictions deviate by approx <strong>৳ {{ "{:,.0f}".format(metadata.mae if metadata and metadata.mae else 2615) }}</strong>.
+            </div>
+        </div>
+
+        <!-- Glossary Item 3 -->
+        <div class="glossary-card">
+            <div class="glossary-header">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.2">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+                Root Mean Squared Error (RMSE)
+            </div>
+            <div class="glossary-body">
+                Heavily penalizes substantial prediction misses by squaring errors before square rooting. Lower RMSE validates that extreme outlier errors are effectively minimized.
+            </div>
+        </div>
+
+        <!-- Glossary Item 4 -->
+        <div class="glossary-card">
+            <div class="glossary-header">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2.2">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                    <line x1="8" y1="21" x2="16" y2="21"></line>
+                    <line x1="12" y1="17" x2="12" y2="21"></line>
+                </svg>
+                Pipeline Preprocessing
+            </div>
+            <div class="glossary-body">
+                Uses Scikit-Learn <code>ColumnTransformer</code> combining <strong>OneHotEncoder</strong> for categorical variables with <strong>StandardScaler</strong> for numerical normalization, preventing data leakage.
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- LIGHTBOX MODAL FOR CHARTS -->
+<div id="imageLightbox" class="image-modal" onclick="closeImageModal(event)">
+    <div class="modal-content-wrapper" onclick="event.stopPropagation()">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modalTitle">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                    <polyline points="21 15 16 10 5 21"></polyline>
+                </svg>
+                <span>Diagnostic Chart View</span>
+            </h3>
+            <button type="button" class="modal-close-btn" onclick="closeImageModal()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        <div class="modal-img-body">
+            <img id="modalImage" src="" alt="Zoomed Chart Preview">
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function openImageModal(imgSrc, title) {
+    const modal = document.getElementById('imageLightbox');
+    const modalImg = document.getElementById('modalImage');
+    const modalTitle = document.getElementById('modalTitle').querySelector('span');
+    
+    if (modal && modalImg) {
+        modalImg.src = imgSrc;
+        if (modalTitle && title) {
+            modalTitle.textContent = title;
+        }
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden'; // prevent background scrolling
+    }
+}
+
+function closeImageModal(event) {
+    const modal = document.getElementById('imageLightbox');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+}
+
+// Close modal on Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeImageModal();
+    }
+});
+</script>
 {% endblock %}
