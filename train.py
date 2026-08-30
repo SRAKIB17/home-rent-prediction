@@ -19,6 +19,7 @@ This script executes the complete Machine Learning workflow:
 =============================================================================
 """
 
+import sys
 import os
 import json
 import joblib
@@ -26,6 +27,12 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+
+if hasattr(sys.stdout, 'reconfigure'):
+    try:
+        sys.stdout.reconfigure(encoding='utf-8')
+    except Exception:
+        pass
 
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
@@ -261,7 +268,7 @@ def generate_visualizations(df, y_test, test_predictions, best_model_name, resul
     # Graph 3: Rent Distribution
     plt.figure(figsize=(8, 5.5))
     sns.histplot(df['monthly_rent'], kde=True, color='#4f46e5', bins=28, edgecolor='black', alpha=0.65)
-    plt.title('Monthly Rent Distribution in Dhaka (Dataset)', fontsize=14, fontweight='bold', pad=12)
+    plt.title('Monthly Rent Distribution in Mymensingh (Dataset)', fontsize=14, fontweight='bold', pad=12)
     plt.xlabel('Monthly Rent (BDT ৳)', fontsize=12)
     plt.ylabel('Frequency', fontsize=12)
     plt.grid(True, linestyle=':', alpha=0.6)

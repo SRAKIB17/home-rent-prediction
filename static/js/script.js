@@ -3,55 +3,55 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Preset Profiles for quick testing
+    // 1. Preset Profiles for quick testing (Mymensingh, Bangladesh)
     const presets = {
-        'mirpur-family': {
-            location: 'Mirpur',
+        'charpara-family': {
+            location: 'Charpara',
             property_type: 'Apartment',
             bedrooms: 3,
             bathrooms: 2,
-            house_size: 1150,
+            house_size: 1250,
             floor: 4,
             total_floors: 7,
             furnished: 'No',
-            parking: 'No',
+            parking: 'Yes',
             balcony: 'Yes',
-            age: 6
+            age: 3
         },
-        'gulshan-luxury': {
-            location: 'Gulshan',
+        'kachijhuli-luxury': {
+            location: 'Kachijhuli',
             property_type: 'Duplex',
             bedrooms: 4,
             bathrooms: 4,
             house_size: 2600,
-            floor: 8,
-            total_floors: 14,
+            floor: 6,
+            total_floors: 10,
             furnished: 'Yes',
             parking: 'Yes',
             balcony: 'Yes',
             age: 2
         },
-        'dhanmondi-3bhk': {
-            location: 'Dhanmondi',
+        'townhall-3bhk': {
+            location: 'Town Hall',
             property_type: 'Apartment',
             bedrooms: 3,
-            bathrooms: 3,
-            house_size: 1550,
-            floor: 5,
-            total_floors: 9,
+            bathrooms: 2,
+            house_size: 1450,
+            floor: 3,
+            total_floors: 6,
             furnished: 'Yes',
             parking: 'Yes',
             balcony: 'Yes',
             age: 4
         },
-        'uttara-studio': {
-            location: 'Uttara',
+        'shehora-studio': {
+            location: 'Shehora',
             property_type: 'Studio',
             bedrooms: 1,
             bathrooms: 1,
             house_size: 450,
-            floor: 3,
-            total_floors: 6,
+            floor: 2,
+            total_floors: 5,
             furnished: 'No',
             parking: 'No',
             balcony: 'No',

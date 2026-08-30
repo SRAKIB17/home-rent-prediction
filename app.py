@@ -68,11 +68,11 @@ def load_saved_model():
 # Initial load
 load_saved_model()
 
-# Valid choices for dropdowns & validations
+# Valid choices for dropdowns & validations (Mymensingh, Bangladesh)
 VALID_LOCATIONS = [
-    'Mirpur', 'Uttara', 'Dhanmondi', 'Mohammadpur', 
-    'Bashundhara', 'Badda', 'Gulshan', 'Mohakhali', 
-    'Khilgaon', 'Jatrabari', 'Banani'
+    'Charpara', 'Town Hall', 'Kachijhuli', 'Ganginar Par',
+    'Maskanda', 'Notun Bazar', 'Shehora', 'Akua',
+    'Sankipara', 'Choto Bazar', 'Kewatkhali', 'Panditpara'
 ]
 
 VALID_PROPERTY_TYPES = ['Apartment', 'House', 'Duplex', 'Studio']
@@ -343,17 +343,17 @@ def batch_predict():
 def download_sample_csv():
     """Generates and serves a sample CSV file for users to test batch prediction."""
     sample_data = {
-        'location': ['Mirpur', 'Gulshan', 'Dhanmondi', 'Uttara', 'Bashundhara'],
+        'location': ['Charpara', 'Kachijhuli', 'Town Hall', 'Shehora', 'Maskanda'],
         'property_type': ['Apartment', 'Duplex', 'Apartment', 'Studio', 'House'],
         'bedrooms': [3, 4, 3, 1, 4],
-        'bathrooms': [2, 4, 3, 1, 3],
-        'house_size': [1200, 2800, 1600, 450, 2000],
-        'floor': [4, 8, 5, 2, 3],
-        'total_floors': [8, 14, 9, 5, 6],
+        'bathrooms': [2, 4, 2, 1, 3],
+        'house_size': [1250, 2600, 1400, 450, 1800],
+        'floor': [4, 6, 3, 2, 2],
+        'total_floors': [7, 10, 6, 5, 5],
         'furnished': ['No', 'Yes', 'Yes', 'No', 'No'],
         'parking': ['Yes', 'Yes', 'Yes', 'No', 'Yes'],
         'balcony': ['Yes', 'Yes', 'Yes', 'No', 'Yes'],
-        'age': [5, 2, 4, 1, 7]
+        'age': [4, 2, 3, 1, 6]
     }
     df_sample = pd.DataFrame(sample_data)
     csv_str = df_sample.to_csv(index=False)
@@ -384,17 +384,17 @@ def api_predict():
     JSON API endpoint for rent prediction.
     Example Request Payload:
     {
-        "location": "Mirpur",
+        "location": "Charpara",
         "property_type": "Apartment",
         "bedrooms": 3,
         "bathrooms": 2,
         "house_size": 1200,
         "floor": 4,
-        "total_floors": 8,
+        "total_floors": 7,
         "furnished": "Yes",
         "parking": "Yes",
         "balcony": "Yes",
-        "age": 5
+        "age": 4
     }
     """
     global model_pipeline

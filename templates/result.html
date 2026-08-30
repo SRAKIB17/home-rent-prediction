@@ -107,7 +107,7 @@
                     </svg>
                     Location:
                 </span>
-                <span class="spec-val">{{ input_data.location }}, Dhaka</span>
+                <span class="spec-val">{{ input_data.location }}, Mymensingh</span>
             </div>
 
             <div class="spec-item">
@@ -220,7 +220,7 @@
         <div
             style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: #94a3b8; border-top: 1px dashed #e2e8f0; padding-top: 1rem; margin-bottom: 1.5rem;">
             <span>🤖 Model: {{ metadata.best_model }} • Pipeline OneHotEncoder + StandardScaler</span>
-            <span>RentPredict AI • Dhaka Real Estate Valuation</span>
+            <span>RentPredict AI • Mymensingh Real Estate Valuation</span>
         </div>
 
         <!-- Action Toolbar -->
@@ -310,9 +310,9 @@
         }).then(canvas => {
             // Create download link
             const link = document.createElement('a');
-            const loc = '{{ input_data.location }}' || 'Dhaka';
+            const loc = '{{ input_data.location }}' || 'Mymensingh';
             const rent = '{{ formatted_rent }}'.replace(/,/g, '') || 'Valuation';
-            link.download = `Dhaka_Rent_Valuation_${loc}_BDT_${rent}.png`;
+            link.download = `Mymensingh_Rent_Valuation_${loc}_BDT_${rent}.png`;
             link.href = canvas.toDataURL('image/png');
             link.click();
 

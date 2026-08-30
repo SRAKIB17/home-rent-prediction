@@ -19,7 +19,7 @@
     </div>
     <div style="font-size: 0.98rem; line-height: 1.8; color: #334155;">
         <p style="margin-bottom: 1rem;">
-            In rapidly expanding urban metropolises like Dhaka, determining a fair monthly home rental price is challenging due to volatile pricing, subjective landlord estimates, and fluctuating amenity valuations across different neighborhoods (e.g., Gulshan vs. Mirpur vs. Uttara).
+            In rapidly expanding divisional hubs like Mymensingh, determining a fair monthly home rental price is challenging due to volatile pricing, subjective landlord estimates, and fluctuating amenity valuations across different neighborhoods (e.g., Medical College area in Charpara vs. Kachijhuli vs. Town Hall vs. Shehora).
         </p>
         <p>
             This <strong>Home Rent Prediction System</strong> implements a data-driven Machine Learning approach. By training multiple supervised regression models on historical housing data with features such as <em>sqft area, location, bedroom count, bathrooms, floor levels, furnishing, and parking</em>, the system predicts accurate, objective monthly rental estimates in <strong>BDT (৳)</strong>.
@@ -86,17 +86,17 @@
         <span style="color: #38bdf8;">POST</span> http://127.0.0.1:5000/api/predict<br>
         <span style="color: #a855f7;">Content-Type:</span> application/json<br><br>
         {<br>
-        &nbsp;&nbsp;<span style="color: #4ade80;">"location"</span>: <span style="color: #fbbf24;">"Mirpur"</span>,<br>
+        &nbsp;&nbsp;<span style="color: #4ade80;">"location"</span>: <span style="color: #fbbf24;">"Charpara"</span>,<br>
         &nbsp;&nbsp;<span style="color: #4ade80;">"property_type"</span>: <span style="color: #fbbf24;">"Apartment"</span>,<br>
         &nbsp;&nbsp;<span style="color: #4ade80;">"bedrooms"</span>: <span style="color: #f87171;">3</span>,<br>
         &nbsp;&nbsp;<span style="color: #4ade80;">"bathrooms"</span>: <span style="color: #f87171;">2</span>,<br>
-        &nbsp;&nbsp;<span style="color: #4ade80;">"house_size"</span>: <span style="color: #f87171;">1200</span>,<br>
+        &nbsp;&nbsp;<span style="color: #4ade80;">"house_size"</span>: <span style="color: #f87171;">1250</span>,<br>
         &nbsp;&nbsp;<span style="color: #4ade80;">"floor"</span>: <span style="color: #f87171;">4</span>,<br>
-        &nbsp;&nbsp;<span style="color: #4ade80;">"total_floors"</span>: <span style="color: #f87171;">8</span>,<br>
+        &nbsp;&nbsp;<span style="color: #4ade80;">"total_floors"</span>: <span style="color: #f87171;">7</span>,<br>
         &nbsp;&nbsp;<span style="color: #4ade80;">"furnished"</span>: <span style="color: #fbbf24;">"Yes"</span>,<br>
         &nbsp;&nbsp;<span style="color: #4ade80;">"parking"</span>: <span style="color: #fbbf24;">"Yes"</span>,<br>
         &nbsp;&nbsp;<span style="color: #4ade80;">"balcony"</span>: <span style="color: #fbbf24;">"Yes"</span>,<br>
-        &nbsp;&nbsp;<span style="color: #4ade80;">"age"</span>: <span style="color: #f87171;">5</span><br>
+        &nbsp;&nbsp;<span style="color: #4ade80;">"age"</span>: <span style="color: #f87171;">3</span><br>
         }
     </div>
 
@@ -105,10 +105,10 @@
         {<br>
         &nbsp;&nbsp;<span style="color: #4ade80;">"status"</span>: <span style="color: #fbbf24;">"success"</span>,<br>
         &nbsp;&nbsp;<span style="color: #4ade80;">"currency"</span>: <span style="color: #fbbf24;">"BDT (৳)"</span>,<br>
-        &nbsp;&nbsp;<span style="color: #4ade80;">"predicted_rent"</span>: <span style="color: #f87171;">25500</span>,<br>
-        &nbsp;&nbsp;<span style="color: #4ade80;">"formatted_rent"</span>: <span style="color: #fbbf24;">"৳ 25,500"</span>,<br>
-        &nbsp;&nbsp;<span style="color: #4ade80;">"model_used"</span>: <span style="color: #fbbf24;">"Random Forest Regressor"</span>,<br>
-        &nbsp;&nbsp;<span style="color: #4ade80;">"model_r2_score"</span>: <span style="color: #f87171;">0.932</span><br>
+        &nbsp;&nbsp;<span style="color: #4ade80;">"predicted_rent"</span>: <span style="color: #f87171;">23500</span>,<br>
+        &nbsp;&nbsp;<span style="color: #4ade80;">"formatted_rent"</span>: <span style="color: #fbbf24;">"৳ 23,500"</span>,<br>
+        &nbsp;&nbsp;<span style="color: #4ade80;">"model_used"</span>: <span style="color: #fbbf24;">"Gradient Boosting"</span>,<br>
+        &nbsp;&nbsp;<span style="color: #4ade80;">"model_r2_score"</span>: <span style="color: #f87171;">0.9564</span><br>
         }
     </div>
 </div>

@@ -1,13 +1,13 @@
 # 🏠 Home Rent Prediction System (ML + Flask Web App)
 
-An end-to-end Machine Learning web application designed to predict residential monthly home rent in Dhaka, Bangladesh (in BDT ৳). Built with **Python, Scikit-Learn, and Flask**, this project is structured for academic presentations, school/college submissions, and viva examinations.
+An end-to-end Machine Learning web application designed to predict residential monthly home rent in Mymensingh, Bangladesh (in BDT ৳). Built with **Python, Scikit-Learn, and Flask**, this project is structured for academic presentations, school/college submissions, and viva examinations.
 
 ---
 
 ## 📌 Project Overview
 - **Domain:** Real Estate Valuation & Machine Learning Regression
 - **Target Currency:** Bangladeshi Taka (৳ BDT)
-- **Focus Area:** Dhaka City (Mirpur, Uttara, Dhanmondi, Gulshan, Banani, Bashundhara, Mohakhali, Mohammadpur, Badda, Khilgaon, Jatrabari)
+- **Focus Area:** Mymensingh City (Charpara, Kachijhuli, Town Hall, Ganginar Par, Maskanda, Notun Bazar, Shehora, Akua, Sankipara, Choto Bazar, Kewatkhali, Panditpara)
 - **Objective:** Enable tenants and landlords to calculate fair market rental estimates based on multi-feature property specifications.
 
 ---
@@ -19,8 +19,8 @@ An end-to-end Machine Learning web application designed to predict residential m
   2. Decision Tree Regressor
   3. Random Forest Regressor
   4. Gradient Boosting Regressor
-- **Automatic Best Model Selection:** Deploys the model with the highest $R^2$ Score and lowest RMSE.
-- **Modern Responsive UI:** Glassmorphic card design, quick-test profile presets, real-time input validation, and detailed breakdown cards.
+- **Automatic Best Model Selection:** Deploys the model with the highest $R^2$ Score (95.64%) and lowest RMSE.
+- **Modern Responsive UI:** Glassmorphic card design, quick-test profile presets, real-time input validation, and detailed breakdown cards with PNG image export.
 - **Exploratory & Evaluation Graphs:** Automatically exports 5 visualization charts to `static/graphs/`.
 - **RESTful API Endpoint:** `POST /api/predict` for mobile or frontend integrations.
 
@@ -30,7 +30,7 @@ An end-to-end Machine Learning web application designed to predict residential m
 - **Backend:** Python 3.9+, Flask
 - **Machine Learning:** Scikit-Learn, Pandas, NumPy
 - **Visualizations:** Matplotlib, Seaborn
-- **Frontend:** HTML5, CSS3 (Vanilla), JavaScript (ES6), Jinja2
+- **Frontend:** HTML5, CSS3 (Vanilla), JavaScript (ES6), Jinja2, html2canvas
 - **Model Serialization:** Joblib
 
 ---
@@ -41,7 +41,7 @@ home-rent-prediction/
 │
 ├── app.py                     # Flask web server & REST API
 ├── train.py                   # ML Training Pipeline & Graph Generator
-├── generate_dataset.py        # Synthetic Dhaka housing dataset generator
+├── generate_dataset.py        # Synthetic Mymensingh housing dataset generator
 ├── requirements.txt           # Python dependencies
 ├── README.md                  # Project documentation
 │
@@ -67,7 +67,7 @@ home-rent-prediction/
 └── templates/
     ├── base.html              # Base Jinja2 layout (Navbar + Footer)
     ├── index.html             # Prediction form & hero section
-    ├── result.html            # Prediction result card & breakdown
+    ├── result.html            # Prediction result card & breakdown with PNG download
     ├── about.html             # Project background & API documentation
     └── model_info.html        # Model evaluation table & charts
 ```
@@ -103,7 +103,7 @@ pip install -r requirements.txt
 ```bash
 python generate_dataset.py
 ```
-*Creates `data/house_rent.csv` containing 1,600+ realistic Dhaka rental listings.*
+*Creates `data/house_rent.csv` containing 1,600+ realistic Mymensingh rental listings.*
 
 ### Step 5: Train Machine Learning Models
 ```bash
@@ -131,17 +131,17 @@ Open your browser and navigate to:
 ### Example Request Body:
 ```json
 {
-    "location": "Mirpur",
+    "location": "Charpara",
     "property_type": "Apartment",
     "bedrooms": 3,
     "bathrooms": 2,
-    "house_size": 1200,
+    "house_size": 1250,
     "floor": 4,
-    "total_floors": 8,
+    "total_floors": 7,
     "furnished": "Yes",
     "parking": "Yes",
     "balcony": "Yes",
-    "age": 5
+    "age": 3
 }
 ```
 
@@ -150,10 +150,10 @@ Open your browser and navigate to:
 {
     "status": "success",
     "currency": "BDT (৳)",
-    "predicted_rent": 25500,
-    "formatted_rent": "৳ 25,500",
-    "model_used": "Random Forest Regressor",
-    "model_r2_score": 0.932
+    "predicted_rent": 23500,
+    "formatted_rent": "৳ 23,500",
+    "model_used": "Gradient Boosting",
+    "model_r2_score": 0.9564
 }
 ```
 
@@ -162,15 +162,15 @@ Open your browser and navigate to:
 ## 📈 Evaluation Metrics Summary
 | Model | MAE (৳) | RMSE (৳) | $R^2$ Score | Status |
 |---|---|---|---|---|
-| **Random Forest Regressor** | **~1,950** | **~2,850** | **0.9320** | 🏆 **Best Model** |
-| Gradient Boosting Regressor | ~2,100 | ~3,050 | 0.9210 | Evaluated |
-| Decision Tree Regressor | ~2,800 | ~4,100 | 0.8650 | Evaluated |
-| Linear Regression | ~3,400 | ~4,900 | 0.8120 | Baseline |
+| **Gradient Boosting** | **~1,815** | **~2,451** | **0.9564** | 🏆 **Best Model** |
+| Linear Regression | ~2,104 | ~2,685 | 0.9477 | Evaluated |
+| Random Forest Regressor | ~2,395 | ~3,286 | 0.9216 | Evaluated |
+| Decision Tree Regressor | ~3,392 | ~4,642 | 0.8436 | Baseline |
 
 ---
 
 ## 🔮 Future Improvements
-1. Integration of real-time geospatial coordinates & proximity to Metro Rail (MRT) stations.
+1. Integration of real-time geospatial coordinates & proximity to Mymensingh Medical College & BAU campus.
 2. User authentication for landlords to save and manage listings.
 3. Integration with a live database like PostgreSQL / SQLite for persistent user reviews.
 4. Image recognition model to score interior aesthetic quality.

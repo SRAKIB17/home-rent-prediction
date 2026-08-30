@@ -1,49 +1,42 @@
 {% extends "base.html" %}
 
-{% block title %}Predict Home Rent - Dhaka Real Estate ML Model{% endblock %}
+{% block title %}Predict Home Rent - Mymensingh Real Estate ML Model{% endblock %}
 
 {% block content %}
 <!-- HERO BANNER -->
 <section class="hero-banner">
-    <div
-        style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(255, 255, 255, 0.18); backdrop-filter: blur(8px); padding: 0.4rem 1.1rem; border-radius: 30px; margin-bottom: 1.15rem; font-size: 0.88rem; font-weight: 600; border: 1px solid rgba(255, 255, 255, 0.3);">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round">
+    <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(255, 255, 255, 0.18); backdrop-filter: blur(8px); padding: 0.4rem 1.1rem; border-radius: 30px; margin-bottom: 1.15rem; font-size: 0.88rem; font-weight: 600; border: 1px solid rgba(255, 255, 255, 0.3);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
             <polyline points="9 22 9 12 15 12 15 22"></polyline>
         </svg>
-        <span>AI-Powered Dhaka Residential Rent Estimator</span>
+        <span>AI-Powered Mymensingh Residential Rent Estimator</span>
     </div>
     <h1 class="hero-title">Smart Home Rent Prediction</h1>
     <p class="hero-subtitle">
-        Estimate accurate residential rental prices across 11 prime Dhaka zones using trained machine learning
-        algorithms with multi-parameter property valuation.
+        Estimate accurate residential rental prices across 12 prime Mymensingh zones using trained machine learning algorithms with multi-parameter property valuation.
     </p>
     <div class="hero-tags">
         <span class="tag-badge">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-                stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;">
                 <circle cx="12" cy="8" r="7"></circle>
                 <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
             </svg>
             Model: {{ metadata.best_model if metadata and metadata.best_model else 'Gradient Boosting' }}
         </span>
         <span class="tag-badge">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-                stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;">
                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                 <polyline points="22 4 12 14.01 9 11.01"></polyline>
             </svg>
-            Accuracy: {{ "{:.2f}%".format((metadata.r2_score if metadata and metadata.r2_score else 0.9694) * 100) }}
-            (R² = {{ "{:.4f}".format(metadata.r2_score if metadata and metadata.r2_score else 0.9694) }})
+            Accuracy: {{ "{:.2f}%".format((metadata.r2_score if metadata and metadata.r2_score else 0.9564) * 100) }} (R² = {{ "{:.4f}".format(metadata.r2_score if metadata and metadata.r2_score else 0.9564) }})
         </span>
         <span class="tag-badge">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-                stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;">
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                 <circle cx="12" cy="10" r="3"></circle>
             </svg>
-            Dhaka Real Estate Focus
+            Mymensingh Real Estate Focus
         </span>
     </div>
 </section>
@@ -52,52 +45,46 @@
 <div class="stats-ribbon">
     <div class="stats-ribbon-card">
         <div class="ribbon-icon-box" style="background: #eff6ff; color: #2563eb;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                 <circle cx="12" cy="10" r="3"></circle>
             </svg>
         </div>
         <div>
-            <div class="ribbon-info-val">11 Areas</div>
-            <div class="ribbon-info-lbl">Dhaka Prime Zones</div>
+            <div class="ribbon-info-val">12 Areas</div>
+            <div class="ribbon-info-lbl">Mymensingh Prime Zones</div>
         </div>
     </div>
 
     <div class="stats-ribbon-card">
         <div class="ribbon-icon-box" style="background: #ecfdf5; color: #059669;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
                 <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
                 <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
             </svg>
         </div>
         <div>
-            <div class="ribbon-info-val">{{ metadata.dataset_size if metadata and metadata.dataset_size else '1,600' }}+
-            </div>
+            <div class="ribbon-info-val">{{ metadata.dataset_size if metadata and metadata.dataset_size else '1,600' }}+</div>
             <div class="ribbon-info-lbl">Trained Data Records</div>
         </div>
     </div>
 
     <div class="stats-ribbon-card">
         <div class="ribbon-icon-box" style="background: #f5f3ff; color: #7c3aed;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
             </svg>
         </div>
         <div>
-            <div class="ribbon-info-val">{{ "{:.2f}%".format((metadata.r2_score if metadata and metadata.r2_score else
-                0.9694) * 100) }}</div>
+            <div class="ribbon-info-val">{{ "{:.2f}%".format((metadata.r2_score if metadata and metadata.r2_score else 0.9564) * 100) }}</div>
             <div class="ribbon-info-lbl">Model R² Accuracy</div>
         </div>
     </div>
 
     <div class="stats-ribbon-card">
         <div class="ribbon-icon-box" style="background: #fffbeb; color: #d97706;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
             </svg>
         </div>
@@ -113,8 +100,7 @@
     <div class="card-header">
         <div>
             <h2 class="card-title">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.2"
-                    stroke-linecap="round" stroke-linejoin="round">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                     <polyline points="14 2 14 8 20 8"></polyline>
                     <line x1="16" y1="13" x2="8" y2="13"></line>
@@ -127,6 +113,9 @@
                 Provide property dimensions and amenities to compute the exact monthly rent in <strong>BDT (৳)</strong>.
             </p>
         </div>
+        <span class="tag-badge" style="background: #eff6ff; color: #2563eb; border-color: #bfdbfe; font-size: 0.8rem;">
+            11 Input Parameters
+        </span>
     </div>
 
     <!-- Quick Presets -->
@@ -137,60 +126,56 @@
             </svg>
             1-Click Demo Profiles:
         </span>
-        <button type="button" class="preset-btn" data-preset="mirpur-family">
+        <button type="button" class="preset-btn" data-preset="charpara-family">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
                 <circle cx="9" cy="7" r="4"></circle>
                 <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
             </svg>
-            Mirpur 3BHK Family Flat
+            Charpara 3BHK Family Flat
         </button>
-        <button type="button" class="preset-btn" data-preset="gulshan-luxury">
+        <button type="button" class="preset-btn" data-preset="kachijhuli-luxury">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polygon
-                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
-                </polygon>
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
             </svg>
-            Gulshan Luxury Duplex
+            Kachijhuli Luxury Duplex
         </button>
-        <button type="button" class="preset-btn" data-preset="dhanmondi-3bhk">
+        <button type="button" class="preset-btn" data-preset="townhall-3bhk">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
                 <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
             </svg>
-            Dhanmondi Modern 3BHK
+            Town Hall Modern 3BHK
         </button>
-        <button type="button" class="preset-btn" data-preset="uttara-studio">
+        <button type="button" class="preset-btn" data-preset="shehora-studio">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                 <circle cx="12" cy="7" r="4"></circle>
             </svg>
-            Uttara Studio Flat
+            Shehora Studio Flat
         </button>
     </div>
 
     <form action="{{ url_for('predict') }}" method="POST" id="predictionForm">
         <div class="form-grid">
-
+            
             <!-- 1. Location -->
             <div class="col-6 form-group">
                 <label for="location" class="form-label">
                     <span class="form-label-title">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                             <circle cx="12" cy="10" r="3"></circle>
                         </svg>
-                        Location / Thana
+                        Location / Area
                     </span>
-                    <span class="label-hint">Dhaka City</span>
+                    <span class="label-hint">Mymensingh</span>
                 </label>
                 <select name="location" id="location" class="form-select" required>
                     <option value="" disabled {% if not form_data %}selected{% endif %}>Select Area</option>
                     {% for loc in locations %}
-                    <option value="{{ loc }}" {% if form_data and form_data.location==loc %}selected{% elif not
-                        form_data and loc=='Mirpur' %}selected{% endif %}>{{ loc }}</option>
+                        <option value="{{ loc }}" {% if form_data and form_data.location == loc %}selected{% elif not form_data and loc == 'Charpara' %}selected{% endif %}>{{ loc }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -199,8 +184,7 @@
             <div class="col-6 form-group">
                 <label for="property_type" class="form-label">
                     <span class="form-label-title">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
                             <line x1="9" y1="22" x2="9" y2="22.01"></line>
                             <line x1="15" y1="22" x2="15" y2="22.01"></line>
@@ -219,8 +203,7 @@
                 </label>
                 <select name="property_type" id="property_type" class="form-select" required>
                     {% for ptype in property_types %}
-                    <option value="{{ ptype }}" {% if form_data and form_data.property_type==ptype %}selected{% elif not
-                        form_data and ptype=='Apartment' %}selected{% endif %}>{{ ptype }}</option>
+                        <option value="{{ ptype }}" {% if form_data and form_data.property_type == ptype %}selected{% elif not form_data and ptype == 'Apartment' %}selected{% endif %}>{{ ptype }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -229,24 +212,21 @@
             <div class="col-4 form-group">
                 <label for="bedrooms" class="form-label">
                     <span class="form-label-title">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M2 4v16M2 8h18a2 2 0 0 1 2 2v10M2 17h20M6 8v9"></path>
                         </svg>
                         Bedrooms
                     </span>
                     <span class="label-hint">Rooms</span>
                 </label>
-                <input type="number" name="bedrooms" id="bedrooms" class="form-control" min="1" max="15"
-                    value="{{ form_data.bedrooms if form_data else 3 }}" required>
+                <input type="number" name="bedrooms" id="bedrooms" class="form-control" min="1" max="15" value="{{ form_data.bedrooms if form_data else 3 }}" required>
             </div>
 
             <!-- 4. Bathrooms -->
             <div class="col-4 form-group">
                 <label for="bathrooms" class="form-label">
                     <span class="form-label-title">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M9 6h6M12 3v3M4 10h16v3a7 7 0 0 1-14 0v-3z"></path>
                             <line x1="4" y1="10" x2="4" y2="20"></line>
                             <line x1="20" y1="10" x2="20" y2="20"></line>
@@ -255,34 +235,28 @@
                     </span>
                     <span class="label-hint">Attached/Common</span>
                 </label>
-                <input type="number" name="bathrooms" id="bathrooms" class="form-control" min="1" max="15"
-                    value="{{ form_data.bathrooms if form_data else 2 }}" required>
+                <input type="number" name="bathrooms" id="bathrooms" class="form-control" min="1" max="15" value="{{ form_data.bathrooms if form_data else 2 }}" required>
             </div>
 
             <!-- 5. House Size -->
             <div class="col-4 form-group">
                 <label for="house_size" class="form-label">
                     <span class="form-label-title">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                            <path
-                                d="M21.3 15.3l-8.6-8.6a2 2 0 0 0-2.8 0L2.7 13.9a2 2 0 0 0 0 2.8l2.6 2.6a2 2 0 0 0 2.8 0l7.2-7.2">
-                            </path>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21.3 15.3l-8.6-8.6a2 2 0 0 0-2.8 0L2.7 13.9a2 2 0 0 0 0 2.8l2.6 2.6a2 2 0 0 0 2.8 0l7.2-7.2"></path>
                         </svg>
                         House Area
                     </span>
                     <span class="label-hint">sqft</span>
                 </label>
-                <input type="number" name="house_size" id="house_size" class="form-control" min="100" max="10000"
-                    step="10" value="{{ form_data.house_size if form_data else 1200 }}" required>
+                <input type="number" name="house_size" id="house_size" class="form-control" min="100" max="10000" step="10" value="{{ form_data.house_size if form_data else 1250 }}" required>
             </div>
 
             <!-- 6. Floor -->
             <div class="col-3 form-group">
                 <label for="floor" class="form-label">
                     <span class="form-label-title">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="12" y1="19" x2="12" y2="5"></line>
                             <polyline points="5 12 12 5 19 12"></polyline>
                         </svg>
@@ -290,16 +264,14 @@
                     </span>
                     <span class="label-hint">Floor #</span>
                 </label>
-                <input type="number" name="floor" id="floor" class="form-control" min="1" max="50"
-                    value="{{ form_data.floor if form_data else 4 }}" required>
+                <input type="number" name="floor" id="floor" class="form-control" min="1" max="50" value="{{ form_data.floor if form_data else 4 }}" required>
             </div>
 
             <!-- 7. Total Floors -->
             <div class="col-3 form-group">
                 <label for="total_floors" class="form-label">
                     <span class="form-label-title">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="18" y1="20" x2="18" y2="10"></line>
                             <line x1="12" y1="20" x2="12" y2="4"></line>
                             <line x1="6" y1="20" x2="6" y2="14"></line>
@@ -308,16 +280,14 @@
                     </span>
                     <span class="label-hint">Building</span>
                 </label>
-                <input type="number" name="total_floors" id="total_floors" class="form-control" min="1" max="50"
-                    value="{{ form_data.total_floors if form_data else 8 }}" required>
+                <input type="number" name="total_floors" id="total_floors" class="form-control" min="1" max="50" value="{{ form_data.total_floors if form_data else 7 }}" required>
             </div>
 
             <!-- 8. Furnished -->
             <div class="col-3 form-group">
                 <label for="furnished" class="form-label">
                     <span class="form-label-title">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M4 18v3M20 18v3M4 11a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v5H4v-5z"></path>
                         </svg>
                         Furnished?
@@ -325,9 +295,8 @@
                     <span class="label-hint">Interior</span>
                 </label>
                 <select name="furnished" id="furnished" class="form-select" required>
-                    <option value="No" {% if form_data and form_data.furnished=='No' %}selected{% endif %}>No</option>
-                    <option value="Yes" {% if form_data and form_data.furnished=='Yes' %}selected{% endif %}>Yes
-                    </option>
+                    <option value="No" {% if form_data and form_data.furnished == 'No' %}selected{% endif %}>No</option>
+                    <option value="Yes" {% if form_data and form_data.furnished == 'Yes' %}selected{% endif %}>Yes</option>
                 </select>
             </div>
 
@@ -335,8 +304,7 @@
             <div class="col-3 form-group">
                 <label for="parking" class="form-label">
                     <span class="form-label-title">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="2" y="6" width="20" height="12" rx="2"></rect>
                             <circle cx="7" cy="18" r="2"></circle>
                             <circle cx="17" cy="18" r="2"></circle>
@@ -346,9 +314,8 @@
                     <span class="label-hint">Garage</span>
                 </label>
                 <select name="parking" id="parking" class="form-select" required>
-                    <option value="No" {% if form_data and form_data.parking=='No' %}selected{% endif %}>No</option>
-                    <option value="Yes" {% if (form_data and form_data.parking=='Yes' ) or (not form_data) %}selected{%
-                        endif %}>Yes</option>
+                    <option value="No" {% if form_data and form_data.parking == 'No' %}selected{% endif %}>No</option>
+                    <option value="Yes" {% if (form_data and form_data.parking == 'Yes') or (not form_data) %}selected{% endif %}>Yes</option>
                 </select>
             </div>
 
@@ -356,8 +323,7 @@
             <div class="col-6 form-group">
                 <label for="balcony" class="form-label">
                     <span class="form-label-title">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
                             <path d="M19 3v4M21 5h-4"></path>
                         </svg>
@@ -366,9 +332,8 @@
                     <span class="label-hint">Open Air</span>
                 </label>
                 <select name="balcony" id="balcony" class="form-select" required>
-                    <option value="Yes" {% if (form_data and form_data.balcony=='Yes' ) or (not form_data) %}selected{%
-                        endif %}>Yes</option>
-                    <option value="No" {% if form_data and form_data.balcony=='No' %}selected{% endif %}>No</option>
+                    <option value="Yes" {% if (form_data and form_data.balcony == 'Yes') or (not form_data) %}selected{% endif %}>Yes</option>
+                    <option value="No" {% if form_data and form_data.balcony == 'No' %}selected{% endif %}>No</option>
                 </select>
             </div>
 
@@ -376,8 +341,7 @@
             <div class="col-6 form-group">
                 <label for="age" class="form-label">
                     <span class="form-label-title">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="10"></circle>
                             <polyline points="12 6 12 12 16 14"></polyline>
                         </svg>
@@ -385,18 +349,14 @@
                     </span>
                     <span class="label-hint">Years</span>
                 </label>
-                <input type="number" name="age" id="age" class="form-control" min="0" max="60"
-                    value="{{ form_data.age if form_data else 4 }}" required>
+                <input type="number" name="age" id="age" class="form-control" min="0" max="60" value="{{ form_data.age if form_data else 3 }}" required>
             </div>
 
             <!-- Submit Button -->
             <div class="col-12">
                 <button type="submit" class="btn-submit" id="submitBtn">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <polygon
-                            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
-                        </polygon>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                     </svg>
                     Calculate Estimated Rent Price
                 </button>
@@ -411,8 +371,7 @@
     <!-- Card 1 -->
     <div class="feature-prop-card">
         <div class="feature-prop-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
                 <rect x="9" y="9" width="6" height="6"></rect>
                 <line x1="9" y1="1" x2="9" y2="4"></line>
@@ -427,39 +386,34 @@
         </div>
         <h3 class="feature-prop-title">Multi-Feature Scikit-Learn Engine</h3>
         <p class="feature-prop-desc">
-            Evaluates 11 quantitative & categorical real estate dimensions simultaneously via OneHotEncoder &
-            StandardScaler pipelines without data leakage.
+            Evaluates 11 quantitative & categorical real estate dimensions simultaneously via OneHotEncoder & StandardScaler pipelines without data leakage.
         </p>
     </div>
 
     <!-- Card 2 -->
     <div class="feature-prop-card">
         <div class="feature-prop-icon" style="background: #ecfdf5; color: #059669;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                 <circle cx="12" cy="10" r="3"></circle>
             </svg>
         </div>
-        <h3 class="feature-prop-title">Dhaka Micro-Market Pricing</h3>
+        <h3 class="feature-prop-title">Mymensingh Micro-Market Pricing</h3>
         <p class="feature-prop-desc">
-            Captures real Dhaka price gradients—differentiating high-end zones (Gulshan, Banani) from central hubs
-            (Dhanmondi) and affordable suburbs (Mirpur).
+            Captures real Mymensingh price gradients—differentiating Medical College & Hospital hubs (Charpara), upscale areas (Kachijhuli), commercial centers (Town Hall, Ganginar Par), and suburban zones (Maskanda, Akua).
         </p>
     </div>
 
     <!-- Card 3 -->
     <div class="feature-prop-card">
         <div class="feature-prop-icon" style="background: #f5f3ff; color: #7c3aed;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
             </svg>
         </div>
         <h3 class="feature-prop-title">Confidence Bounds & Tolerance</h3>
         <p class="feature-prop-desc">
-            Every prediction delivers a point estimate alongside a statistical range calculated from Root Mean Squared
-            Error (RMSE) for market negotiation.
+            Every prediction delivers a point estimate alongside a statistical range calculated from Root Mean Squared Error (RMSE) for market negotiation.
         </p>
     </div>
 </div>

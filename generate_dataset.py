@@ -1,12 +1,13 @@
 """
 =============================================================================
-Home Rent Prediction System - Dataset Generator
+Home Rent Prediction System - Dataset Generator (Mymensingh, Bangladesh)
 =============================================================================
 This script generates a realistic synthetic dataset for rental housing
-across different prominent areas in Dhaka, Bangladesh.
+across different prominent areas in Mymensingh, Bangladesh.
 
 The dataset includes realistic correlations:
-- Premium locations (Gulshan, Banani, Dhanmondi) have higher base rates per sqft
+- Prime locations (Kachijhuli, Charpara, Town Hall, Ganginar Par) have higher base rates per sqft
+- Proximity to Mymensingh Medical College Hospital (Charpara) and Bangladesh Agricultural University (Kewatkhali)
 - Size (sqft), bedrooms, and bathrooms scale logically
 - Furnishing, parking, and balcony add realistic premiums
 - Floor level impacts price (middle floors preferred over ground/top floors)
@@ -14,29 +15,37 @@ The dataset includes realistic correlations:
 =============================================================================
 """
 
+import sys
 import os
 import numpy as np
 import pandas as pd
+
+if hasattr(sys.stdout, 'reconfigure'):
+    try:
+        sys.stdout.reconfigure(encoding='utf-8')
+    except Exception:
+        pass
 
 # Set fixed random seed for reproducibility
 np.random.seed(42)
 
 def generate_house_rent_dataset(num_samples: int = 1600, output_path: str = "data/house_rent.csv"):
-    """Generates synthetic Dhaka home rent dataset and saves to CSV."""
+    """Generates synthetic Mymensingh home rent dataset and saves to CSV."""
     
-    # Location configurations with base price per sqft (in BDT)
+    # Location configurations with base price per sqft (in BDT) for Mymensingh
     locations_config = {
-        'Gulshan': {'base_rate': 45.0, 'prob': 0.10},
-        'Banani': {'base_rate': 42.0, 'prob': 0.08},
-        'Dhanmondi': {'base_rate': 32.0, 'prob': 0.12},
-        'Uttara': {'base_rate': 26.0, 'prob': 0.14},
-        'Bashundhara': {'base_rate': 28.0, 'prob': 0.12},
-        'Mohakhali': {'base_rate': 25.0, 'prob': 0.08},
-        'Mirpur': {'base_rate': 18.0, 'prob': 0.16},
-        'Mohammadpur': {'base_rate': 21.0, 'prob': 0.10},
-        'Badda': {'base_rate': 17.0, 'prob': 0.04},
-        'Khilgaon': {'base_rate': 16.0, 'prob': 0.03},
-        'Jatrabari': {'base_rate': 14.0, 'prob': 0.03}
+        'Kachijhuli': {'base_rate': 19.0, 'prob': 0.12},
+        'Charpara': {'base_rate': 18.5, 'prob': 0.16},
+        'Town Hall': {'base_rate': 17.5, 'prob': 0.12},
+        'Ganginar Par': {'base_rate': 16.5, 'prob': 0.10},
+        'Notun Bazar': {'base_rate': 15.5, 'prob': 0.08},
+        'Shehora': {'base_rate': 14.5, 'prob': 0.10},
+        'Panditpara': {'base_rate': 14.0, 'prob': 0.06},
+        'Sankipara': {'base_rate': 14.0, 'prob': 0.08},
+        'Choto Bazar': {'base_rate': 13.5, 'prob': 0.04},
+        'Maskanda': {'base_rate': 13.0, 'prob': 0.06},
+        'Akua': {'base_rate': 12.5, 'prob': 0.05},
+        'Kewatkhali': {'base_rate': 12.0, 'prob': 0.03}
     }
     
     locations = list(locations_config.keys())
@@ -148,7 +157,7 @@ def generate_house_rent_dataset(num_samples: int = 1600, output_path: str = "dat
         
         # Round rent to nearest 500 BDT for realistic listing prices
         rent = int(round(rent / 500.0) * 500)
-        rent = max(7000, rent) # minimum floor
+        rent = max(4000, rent) # minimum floor (affordable studios/bachelor units)
         
         data.append({
             'location': location,

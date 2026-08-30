@@ -1,82 +1,82 @@
 {
     "best_model": "Gradient Boosting",
-    "r2_score": 0.9694,
-    "accuracy_percent": 96.94,
-    "rmse": 3586.07,
-    "mae": 2614.81,
+    "r2_score": 0.9564,
+    "accuracy_percent": 95.64,
+    "rmse": 2451.11,
+    "mae": 1815.49,
     "dataset_size": 1600,
     "train_samples": 1280,
     "test_samples": 320,
     "models_comparison": [
         {
             "Model": "Gradient Boosting",
-            "MAE": 2614.8056663369834,
-            "MSE": 12859876.69872491,
-            "RMSE": 3586.0670237357403,
-            "R2": 0.9694420079235831
-        },
-        {
-            "Model": "Random Forest",
-            "MAE": 3530.346253494131,
-            "MSE": 25101938.927339822,
-            "RMSE": 5010.183522321296,
-            "R2": 0.9403520835529934
+            "MAE": 1815.491131274432,
+            "MSE": 6007959.767113937,
+            "RMSE": 2451.1139849288807,
+            "R2": 0.9563899813859206
         },
         {
             "Model": "Linear Regression",
-            "MAE": 4220.240216542099,
-            "MSE": 37237150.396690466,
-            "RMSE": 6102.225036549411,
-            "R2": 0.9115160608901299
+            "MAE": 2104.025630129509,
+            "MSE": 7210686.196502957,
+            "RMSE": 2685.2720898454513,
+            "R2": 0.9476597428346567
+        },
+        {
+            "Model": "Random Forest",
+            "MAE": 2395.284327512556,
+            "MSE": 10798369.95429118,
+            "RMSE": 3286.087332115685,
+            "R2": 0.9216177982272723
         },
         {
             "Model": "Decision Tree",
-            "MAE": 4879.59489684109,
-            "MSE": 50171056.90344759,
-            "RMSE": 7083.153034027119,
-            "R2": 0.8807821571513959
+            "MAE": 3392.292341334495,
+            "MSE": 21551928.0454872,
+            "RMSE": 4642.405415890258,
+            "R2": 0.843560872631394
         }
     ],
     "top_features": [
         {
             "Feature": "house_size",
-            "Importance": 0.654420100699219
-        },
-        {
-            "Feature": "location_Gulshan",
-            "Importance": 0.10542683707932042
-        },
-        {
-            "Feature": "location_Banani",
-            "Importance": 0.06877754718225751
-        },
-        {
-            "Feature": "location_Mirpur",
-            "Importance": 0.028193010749510767
-        },
-        {
-            "Feature": "location_Dhanmondi",
-            "Importance": 0.022760065198646907
+            "Importance": 0.7542021359317631
         },
         {
             "Feature": "furnished_No",
-            "Importance": 0.0211223922354703
+            "Importance": 0.06747802282188044
         },
         {
             "Feature": "furnished_Yes",
-            "Importance": 0.01697307973582812
+            "Importance": 0.04873084591016708
         },
         {
             "Feature": "bedrooms",
-            "Importance": 0.013694865712240392
-        },
-        {
-            "Feature": "location_Khilgaon",
-            "Importance": 0.010860326913580857
+            "Importance": 0.03733512636731746
         },
         {
             "Feature": "age",
-            "Importance": 0.009649161181628547
+            "Importance": 0.015573101300240687
+        },
+        {
+            "Feature": "location_Charpara",
+            "Importance": 0.013573449332112962
+        },
+        {
+            "Feature": "location_Kachijhuli",
+            "Importance": 0.011700522249080093
+        },
+        {
+            "Feature": "property_type_Duplex",
+            "Importance": 0.007832425946136154
+        },
+        {
+            "Feature": "bathrooms",
+            "Importance": 0.007131848134919227
+        },
+        {
+            "Feature": "floor",
+            "Importance": 0.00592456373824011
         }
     ]
 }
