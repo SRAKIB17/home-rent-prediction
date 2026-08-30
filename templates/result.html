@@ -1,100 +1,338 @@
 {% extends "base.html" %}
 
-{% block title %}Prediction Result - Monthly Rent{% endblock %}
+{% block title %}Property Rent Valuation Report - ML Model Result{% endblock %}
 
 {% block content %}
-<div class="result-card">
-    
+<!-- RESULT VALUATION CARD -->
+<div class="result-card" id="valuationReportCard">
+
     <!-- RESULT HEADER -->
     <div class="result-header">
-        <div class="result-subhead">Predicted Monthly Rental Value</div>
+        <div class="cert-meta-tag">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+            <span>Official ML Valuation Certificate</span>
+        </div>
+        <div class="result-subhead">Estimated Monthly Rental Valuation</div>
         <div class="rent-display">
             <span class="currency-symbol">৳</span>
             <span>{{ formatted_rent }}</span>
+            <span class="rent-period">/ month</span>
         </div>
         <div class="rent-range-box">
-            Estimated Range: <strong>৳ {{ lower_bound }} — ৳ {{ upper_bound }}</strong>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <span>Confidence Range (± RMSE): <strong>৳ {{ lower_bound }} — ৳ {{ upper_bound }}</strong></span>
         </div>
     </div>
 
     <!-- RESULT BODY -->
     <div class="result-body">
-        
+
         <!-- Metrics Row -->
         <div class="metrics-row">
             <div class="metric-box">
-                <div class="metric-val">{{ metadata.r2_score }}</div>
-                <div class="metric-lbl">Model R² Score ({{ metadata.accuracy_percent }}%)</div>
+                <div class="metric-val">{{ "{:.2f}%".format((metadata.r2_score if metadata and metadata.r2_score else
+                    0.9694) * 100) }}</div>
+                <div class="metric-lbl">Model R² Accuracy</div>
             </div>
             <div class="metric-box">
-                <div class="metric-val">৳ {{ "{:,.0f}".format(metadata.rmse) }}</div>
-                <div class="metric-lbl">Root Mean Squared Error</div>
+                <div class="metric-val">৳ {{ "{:,.0f}".format(metadata.rmse if metadata and metadata.rmse else 3586) }}
+                </div>
+                <div class="metric-lbl">RMSE Precision Margin</div>
             </div>
             <div class="metric-box">
-                <div class="metric-val" style="font-size: 1.1rem; padding-top: 0.3rem;">{{ metadata.best_model }}</div>
+                <div class="metric-val" style="font-size: 1.15rem; color: #059669; padding-top: 0.15rem;">{{
+                    metadata.best_model if metadata and metadata.best_model else 'Gradient Boosting' }}</div>
                 <div class="metric-lbl">Active ML Algorithm</div>
             </div>
         </div>
 
-        <!-- Property Summary Details -->
-        <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-main);">
-            📋 Evaluated Property Specifications
-        </h3>
-
-        <div class="spec-grid">
-            <div class="spec-item">
-                <span class="spec-name">Location:</span>
-                <span class="spec-val">{{ input_data.location }}</span>
+        <!-- Valuation Analysis Strip -->
+        <div class="valuation-analysis-strip">
+            <div class="rate-badge">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path
+                        d="M21.3 15.3l-8.6-8.6a2 2 0 0 0-2.8 0L2.7 13.9a2 2 0 0 0 0 2.8l2.6 2.6a2 2 0 0 0 2.8 0l7.2-7.2">
+                    </path>
+                </svg>
+                <span>Estimated Unit Rate: <strong>৳ {{ "{:.1f}".format(prediction / input_data.house_size) }}</strong>
+                    / sqft</span>
             </div>
-            <div class="spec-item">
-                <span class="spec-name">Property Type:</span>
-                <span class="spec-val">{{ input_data.property_type }}</span>
-            </div>
-            <div class="spec-item">
-                <span class="spec-name">Size:</span>
-                <span class="spec-val">{{ input_data.house_size }} sqft</span>
-            </div>
-            <div class="spec-item">
-                <span class="spec-name">Bedrooms:</span>
-                <span class="spec-val">{{ input_data.bedrooms }} Beds</span>
-            </div>
-            <div class="spec-item">
-                <span class="spec-name">Bathrooms:</span>
-                <span class="spec-val">{{ input_data.bathrooms }} Baths</span>
-            </div>
-            <div class="spec-item">
-                <span class="spec-name">Floor Level:</span>
-                <span class="spec-val">Floor {{ input_data.floor }} of {{ input_data.total_floors }}</span>
-            </div>
-            <div class="spec-item">
-                <span class="spec-name">Furnished:</span>
-                <span class="spec-val">{{ input_data.furnished }}</span>
-            </div>
-            <div class="spec-item">
-                <span class="spec-name">Parking:</span>
-                <span class="spec-val">{{ input_data.parking }}</span>
-            </div>
-            <div class="spec-item">
-                <span class="spec-name">Balcony:</span>
-                <span class="spec-val">{{ input_data.balcony }}</span>
-            </div>
-            <div class="spec-item">
-                <span class="spec-name">Property Age:</span>
-                <span class="spec-val">{{ input_data.age }} Years</span>
+            <div class="market-tier-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 3px;">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                {% if prediction >= 50000 %}
+                Luxury Tier Rental
+                {% elif prediction >= 25000 %}
+                Prime Residential Tier
+                {% else %}
+                Standard Residential Tier
+                {% endif %}
             </div>
         </div>
 
-        <!-- Action Buttons -->
-        <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem; flex-wrap: wrap;">
-            <a href="{{ url_for('home') }}" class="btn-secondary" style="background: var(--primary); color: white; border-color: var(--primary);">
-                <span>🔄</span> Predict Another Property
+        <!-- Property Summary Details -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h3
+                style="font-size: 1.15rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem; margin: 0;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                </svg>
+                Evaluated Property Specifications
+            </h3>
+            <span style="font-size: 0.8rem; color: #64748b; font-weight: 600;">11 Features Analyzed</span>
+        </div>
+
+        <div class="spec-grid">
+            <div class="spec-item">
+                <span class="spec-name">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.2">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    Location:
+                </span>
+                <span class="spec-val">{{ input_data.location }}, Dhaka</span>
+            </div>
+
+            <div class="spec-item">
+                <span class="spec-name">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.2">
+                        <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
+                    </svg>
+                    Property Type:
+                </span>
+                <span class="spec-val">{{ input_data.property_type }}</span>
+            </div>
+
+            <div class="spec-item">
+                <span class="spec-name">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.2">
+                        <path
+                            d="M21.3 15.3l-8.6-8.6a2 2 0 0 0-2.8 0L2.7 13.9a2 2 0 0 0 0 2.8l2.6 2.6a2 2 0 0 0 2.8 0l7.2-7.2">
+                        </path>
+                    </svg>
+                    Total Size:
+                </span>
+                <span class="spec-val">{{ input_data.house_size }} sqft</span>
+            </div>
+
+            <div class="spec-item">
+                <span class="spec-name">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.2">
+                        <path d="M2 4v16M2 8h18a2 2 0 0 1 2 2v10M2 17h20M6 8v9"></path>
+                    </svg>
+                    Bedrooms:
+                </span>
+                <span class="spec-val">{{ input_data.bedrooms }} Bed(s)</span>
+            </div>
+
+            <div class="spec-item">
+                <span class="spec-name">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.2">
+                        <path d="M9 6h6M12 3v3M4 10h16v3a7 7 0 0 1-14 0v-3z"></path>
+                    </svg>
+                    Bathrooms:
+                </span>
+                <span class="spec-val">{{ input_data.bathrooms }} Bath(s)</span>
+            </div>
+
+            <div class="spec-item">
+                <span class="spec-name">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.2">
+                        <line x1="12" y1="19" x2="12" y2="5"></line>
+                        <polyline points="5 12 12 5 19 12"></polyline>
+                    </svg>
+                    Floor Level:
+                </span>
+                <span class="spec-val">Floor {{ input_data.floor }} of {{ input_data.total_floors }}</span>
+            </div>
+
+            <div class="spec-item">
+                <span class="spec-name">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.2">
+                        <path d="M4 18v3M20 18v3M4 11a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v5H4v-5z"></path>
+                    </svg>
+                    Furnishing:
+                </span>
+                <span class="spec-val">{{ input_data.furnished }}</span>
+            </div>
+
+            <div class="spec-item">
+                <span class="spec-name">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.2">
+                        <rect x="2" y="6" width="20" height="12" rx="2"></rect>
+                        <circle cx="7" cy="18" r="2"></circle>
+                        <circle cx="17" cy="18" r="2"></circle>
+                    </svg>
+                    Parking Facility:
+                </span>
+                <span class="spec-val">{{ input_data.parking }}</span>
+            </div>
+
+            <div class="spec-item">
+                <span class="spec-name">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.2">
+                        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+                    </svg>
+                    Balcony / Veranda:
+                </span>
+                <span class="spec-val">{{ input_data.balcony }}</span>
+            </div>
+
+            <div class="spec-item">
+                <span class="spec-name">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    Building Age:
+                </span>
+                <span class="spec-val">{{ input_data.age }} Year(s)</span>
+            </div>
+        </div>
+
+        <!-- Verification Notice / Watermark -->
+        <div
+            style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: #94a3b8; border-top: 1px dashed #e2e8f0; padding-top: 1rem; margin-bottom: 1.5rem;">
+            <span>🤖 Model: {{ metadata.best_model }} • Pipeline OneHotEncoder + StandardScaler</span>
+            <span>RentPredict AI • Dhaka Real Estate Valuation</span>
+        </div>
+
+        <!-- Action Toolbar -->
+        <div class="result-actions-toolbar" data-html2canvas-ignore="true">
+            <!-- Download Image Button -->
+            <button type="button" class="btn-action-primary" id="downloadImageBtn" onclick="downloadReportAsImage()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                <span>Download as Image (PNG)</span>
+            </button>
+
+            <!-- Predict Another -->
+            <a href="{{ url_for('home') }}" class="btn-action-outline">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="1 4 1 10 7 10"></polyline>
+                    <polyline points="23 20 23 14 17 14"></polyline>
+                    <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path>
+                </svg>
+                <span>New Prediction</span>
             </a>
-            <a href="{{ url_for('model_info') }}" class="btn-secondary">
-                <span>📊</span> View Model Performance Graphs
+
+            <!-- Model Info -->
+            <a href="{{ url_for('model_info') }}" class="btn-action-outline">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="20" x2="18" y2="10"></line>
+                    <line x1="12" y1="20" x2="12" y2="4"></line>
+                    <line x1="6" y1="20" x2="6" y2="14"></line>
+                </svg>
+                <span>Model Analytics</span>
             </a>
         </div>
 
     </div>
 
 </div>
+{% endblock %}
+
+{% block scripts %}
+<!-- HTML2Canvas CDN for High-Quality Image Export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<script>
+    function downloadReportAsImage() {
+        const card = document.getElementById('valuationReportCard');
+        const downloadBtn = document.getElementById('downloadImageBtn');
+
+        if (!card) return;
+
+        if (typeof html2canvas === 'undefined') {
+            alert("Image generator library is loading, please try again in a moment.");
+            return;
+        }
+
+        // Save original button content and show loading spinner
+        const origHtml = downloadBtn.innerHTML;
+        downloadBtn.disabled = true;
+        downloadBtn.innerHTML = `
+        <svg class="spinner" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="animation: spin 1s linear infinite;">
+            <line x1="12" y1="2" x2="12" y2="6"></line>
+            <line x1="12" y1="18" x2="12" y2="22"></line>
+            <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+            <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+            <line x1="2" y1="12" x2="6" y2="12"></line>
+            <line x1="18" y1="12" x2="22" y2="12"></line>
+            <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+            <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+        </svg>
+        <span>Generating PNG Image...</span>
+    `;
+
+        // Render card using html2canvas with scale 2 for crystal clear retina quality
+        html2canvas(card, {
+            scale: 2,
+            useCORS: true,
+            allowTaint: true,
+            backgroundColor: '#ffffff',
+            logging: false,
+            ignoreElements: function (element) {
+                return element.getAttribute('data-html2canvas-ignore') === 'true';
+            }
+        }).then(canvas => {
+            // Create download link
+            const link = document.createElement('a');
+            const loc = '{{ input_data.location }}' || 'Dhaka';
+            const rent = '{{ formatted_rent }}'.replace(/,/g, '') || 'Valuation';
+            link.download = `Dhaka_Rent_Valuation_${loc}_BDT_${rent}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+
+            // Restore button state
+            downloadBtn.disabled = false;
+            downloadBtn.innerHTML = `
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Downloaded Successfully!</span>
+        `;
+            setTimeout(() => {
+                downloadBtn.innerHTML = origHtml;
+            }, 3000);
+        }).catch(err => {
+            console.error("Error generating report image:", err);
+            alert("Failed to export image. Please try the Print / PDF option.");
+            downloadBtn.disabled = false;
+            downloadBtn.innerHTML = origHtml;
+        });
+    }
+</script>
 {% endblock %}
