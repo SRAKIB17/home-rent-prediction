@@ -11,12 +11,19 @@ Routes:
 =============================================================================
 """
 
+import sys
 import io
 import os
 import json
 import joblib
 import pandas as pd
 from flask import Flask, render_template, request, jsonify, redirect, url_for, flash, Response, make_response
+
+if hasattr(sys.stdout, 'reconfigure'):
+    try:
+        sys.stdout.reconfigure(encoding='utf-8')
+    except Exception:
+        pass
 
 app = Flask(__name__)
 app.secret_key = "home_rent_prediction_secret_key_2026"
