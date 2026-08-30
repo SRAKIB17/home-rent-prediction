@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Batch CSV Rent Prediction{% endblock %}
+
+{% block content %}
+<section class="hero-banner" style="padding: 2.2rem 2rem;">
+    <h1 class="hero-title">Batch Prediction from CSV File</h1>
+    <p class="hero-subtitle">
+        Upload a CSV file containing multiple house properties to predict monthly rent for all records at once with full data export.
+    </p>
+</section>
+
+<div class="card" style="max-width: 800px; margin: 0 auto 2rem auto;">
+    <div class="card-header">
+        <h2 class="card-title">
+            <span>📁</span> Upload Properties CSV File
+        </h2>
+        <a href="{{ url_for('download_sample_csv') }}" class="btn-secondary" style="font-size: 0.82rem; padding: 0.4rem 0.8rem;">
+            <span>⬇️</span> Download Sample CSV Template
+        </a>
+    </div>
+
+    <form action="{{ url_for('batch_predict') }}" method="POST" enctype="multipart/form-data">
+        <div style="background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: var(--radius-lg); padding: 2.5rem 1.5rem; text-align: center; margin-bottom: 1.5rem; transition: border-color 0.2s;">
+            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">📄</div>
+            <h3 style="font-size: 1.1rem; font-weight: 700; color: #1e293b; margin-bottom: 0.3rem;">Select CSV file from your computer</h3>
+            <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 1.2rem;">File must have columns: location, property_type, bedrooms, bathrooms, house_size, floor, total_floors, furnished, parking, balcony, age</p>
+            
+            <input type="file" name="csv_file" id="csv_file" accept=".csv" required style="display: inline-block; font-size: 0.9rem; color: #475569;">
+        </div>
+
+        <button type="submit" class="btn-submit" style="margin-top: 0;">
+            <span>⚡</span> Process & Predict All Records
+        </button>
+    </form>
+</div>
+
+<!-- Required Columns Guide Card -->
+<div class="card" style="max-width: 800px; margin: 0 auto;">
+    <div class="card-header">
+        <h3 class="card-title" style="font-size: 1.1rem;">
+            <span>ℹ️</span> CSV Columns Format Guide
+        </h3>
+    </div>
+    <div style="overflow-x: auto;">
+        <table class="custom-table" style="font-size: 0.88rem; margin: 0;">
+            <thead>
+                <tr>
+                    <th>Column Name</th>
+                    <th>Type / Values</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><code>location</code></td><td>Mirpur, Uttara, Dhanmondi, Gulshan, etc.</td><td>Mirpur</td></tr>
+                <tr><td><code>property_type</code></td><td>Apartment, House, Duplex, Studio</td><td>Apartment</td></tr>
+                <tr><td><code>bedrooms</code></td><td>Positive Integer (1-15)</td><td>3</td></tr>
+                <tr><td><code>bathrooms</code></td><td>Positive Integer (1-15)</td><td>2</td></tr>
+                <tr><td><code>house_size</code></td><td>Square Feet (100-10000)</td><td>1200</td></tr>
+                <tr><td><code>floor</code></td><td>Floor number (1, 2, ...)</td><td>4</td></tr>
+                <tr><td><code>total_floors</code></td><td>Total floors of building</td><td>8</td></tr>
+                <tr><td><code>furnished</code></td><td>Yes / No</td><td>No</td></tr>
+                <tr><td><code>parking</code></td><td>Yes / No</td><td>Yes</td></tr>
+                <tr><td><code>balcony</code></td><td>Yes / No</td><td>Yes</td></tr>
+                <tr><td><code>age</code></td><td>Building age in years (0-60)</td><td>5</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

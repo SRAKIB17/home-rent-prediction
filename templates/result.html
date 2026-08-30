@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}Prediction Result - Monthly Rent{% endblock %}
+
+{% block content %}
+<div class="result-card">
+    
+    <!-- RESULT HEADER -->
+    <div class="result-header">
+        <div class="result-subhead">Predicted Monthly Rental Value</div>
+        <div class="rent-display">
+            <span class="currency-symbol">৳</span>
+            <span>{{ formatted_rent }}</span>
+        </div>
+        <div class="rent-range-box">
+            Estimated Range: <strong>৳ {{ lower_bound }} — ৳ {{ upper_bound }}</strong>
+        </div>
+    </div>
+
+    <!-- RESULT BODY -->
+    <div class="result-body">
+        
+        <!-- Metrics Row -->
+        <div class="metrics-row">
+            <div class="metric-box">
+                <div class="metric-val">{{ metadata.r2_score }}</div>
+                <div class="metric-lbl">Model R² Score ({{ metadata.accuracy_percent }}%)</div>
+            </div>
+            <div class="metric-box">
+                <div class="metric-val">৳ {{ "{:,.0f}".format(metadata.rmse) }}</div>
+                <div class="metric-lbl">Root Mean Squared Error</div>
+            </div>
+            <div class="metric-box">
+                <div class="metric-val" style="font-size: 1.1rem; padding-top: 0.3rem;">{{ metadata.best_model }}</div>
+                <div class="metric-lbl">Active ML Algorithm</div>
+            </div>
+        </div>
+
+        <!-- Property Summary Details -->
+        <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-main);">
+            📋 Evaluated Property Specifications
+        </h3>
+
+        <div class="spec-grid">
+            <div class="spec-item">
+                <span class="spec-name">Location:</span>
+                <span class="spec-val">{{ input_data.location }}</span>
+            </div>
+            <div class="spec-item">
+                <span class="spec-name">Property Type:</span>
+                <span class="spec-val">{{ input_data.property_type }}</span>
+            </div>
+            <div class="spec-item">
+                <span class="spec-name">Size:</span>
+                <span class="spec-val">{{ input_data.house_size }} sqft</span>
+            </div>
+            <div class="spec-item">
+                <span class="spec-name">Bedrooms:</span>
+                <span class="spec-val">{{ input_data.bedrooms }} Beds</span>
+            </div>
+            <div class="spec-item">
+                <span class="spec-name">Bathrooms:</span>
+                <span class="spec-val">{{ input_data.bathrooms }} Baths</span>
+            </div>
+            <div class="spec-item">
+                <span class="spec-name">Floor Level:</span>
+                <span class="spec-val">Floor {{ input_data.floor }} of {{ input_data.total_floors }}</span>
+            </div>
+            <div class="spec-item">
+                <span class="spec-name">Furnished:</span>
+                <span class="spec-val">{{ input_data.furnished }}</span>
+            </div>
+            <div class="spec-item">
+                <span class="spec-name">Parking:</span>
+                <span class="spec-val">{{ input_data.parking }}</span>
+            </div>
+            <div class="spec-item">
+                <span class="spec-name">Balcony:</span>
+                <span class="spec-val">{{ input_data.balcony }}</span>
+            </div>
+            <div class="spec-item">
+                <span class="spec-name">Property Age:</span>
+                <span class="spec-val">{{ input_data.age }} Years</span>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem; flex-wrap: wrap;">
+            <a href="{{ url_for('home') }}" class="btn-secondary" style="background: var(--primary); color: white; border-color: var(--primary);">
+                <span>🔄</span> Predict Another Property
+            </a>
+            <a href="{{ url_for('model_info') }}" class="btn-secondary">
+                <span>📊</span> View Model Performance Graphs
+            </a>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

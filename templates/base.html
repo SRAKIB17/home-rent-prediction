@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Home Rent Prediction System{% endblock %} - ML & Flask</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏠</text></svg>">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('home') }}" class="brand-logo">
+                <div class="brand-icon">🏠</div>
+                <span>RentPredict<span class="brand-badge">ML AI</span></span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('home') }}"
+                        class="{% if request.endpoint == 'home' %}active{% endif %}">Home</a></li>
+                <li><a href="{{ url_for('batch_predict') }}"
+                        class="{% if request.endpoint == 'batch_predict' %}active{% endif %}">Batch CSV Predict</a></li>
+                <li><a href="{{ url_for('model_info') }}"
+                        class="{% if request.endpoint == 'model_info' %}active{% endif %}">Model Performance</a></li>
+                <li><a href="{{ url_for('about') }}" class="{% if request.endpoint == 'about' %}active{% endif %}">About
+                        Project</a></li>
+                <li><a href="{{ url_for('home') }}#prediction-form" class="nav-btn">Predict Now</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="container">
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">
+            <span>⚠️</span>
+            <span>{{ message }}</span>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div>
+                <h4 style="color: white; margin-bottom: 0.3rem;">🏠 Home Rent Prediction System</h4>
+                <p>Machine Learning & Flask Academic Project | Bangladesh Real Estate Context</p>
+            </div>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <span class="tag-badge">Powered by Scikit-Learn</span>
+                <span class="tag-badge">Flask Framework</span>
+            </div>
+        </div>
+        <div class="footer-copy">
+            &copy; 2026 Home Rent Prediction System. All rights reserved. Designed for School/College Demonstration &
+            Viva.
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>

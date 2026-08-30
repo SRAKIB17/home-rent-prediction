@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}About Project - Home Rent Prediction{% endblock %}
+
+{% block content %}
+<section class="hero-banner" style="padding: 2.2rem 2rem;">
+    <h1 class="hero-title">About the Project</h1>
+    <p class="hero-subtitle">
+        An academic machine learning system designed to automate and standardize residential rent estimation in urban Bangladesh.
+    </p>
+</section>
+
+<!-- PROJECT OVERVIEW -->
+<div class="card" style="margin-bottom: 2rem;">
+    <div class="card-header">
+        <h2 class="card-title">
+            <span>🎯</span> Project Objective & Problem Statement
+        </h2>
+    </div>
+    <div style="font-size: 0.98rem; line-height: 1.8; color: #334155;">
+        <p style="margin-bottom: 1rem;">
+            In rapidly expanding urban metropolises like Dhaka, determining a fair monthly home rental price is challenging due to volatile pricing, subjective landlord estimates, and fluctuating amenity valuations across different neighborhoods (e.g., Gulshan vs. Mirpur vs. Uttara).
+        </p>
+        <p>
+            This <strong>Home Rent Prediction System</strong> implements a data-driven Machine Learning approach. By training multiple supervised regression models on historical housing data with features such as <em>sqft area, location, bedroom count, bathrooms, floor levels, furnishing, and parking</em>, the system predicts accurate, objective monthly rental estimates in <strong>BDT (৳)</strong>.
+        </p>
+    </div>
+</div>
+
+<!-- ARCHITECTURE PIPELINE -->
+<div class="card" style="margin-bottom: 2rem;">
+    <div class="card-header">
+        <h2 class="card-title">
+            <span>⚙️</span> Machine Learning Pipeline Architecture
+        </h2>
+    </div>
+    <div class="form-grid" style="gap: 1.5rem;">
+        
+        <div class="col-4" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: var(--radius-md); padding: 1.25rem;">
+            <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem;">1. Data Preprocessing</h3>
+            <ul style="padding-left: 1.2rem; font-size: 0.88rem; color: #475569; line-height: 1.6;">
+                <li>Handling Missing Values & Duplicates</li>
+                <li>Elimination of Impossible Outliers</li>
+                <li>OneHotEncoding for Categorical Features</li>
+                <li>StandardScaler for Continuous Values</li>
+            </ul>
+        </div>
+
+        <div class="col-4" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: var(--radius-md); padding: 1.25rem;">
+            <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem;">2. Model Exploration</h3>
+            <ul style="padding-left: 1.2rem; font-size: 0.88rem; color: #475569; line-height: 1.6;">
+                <li>Linear Regression (Baseline)</li>
+                <li>Decision Tree Regressor</li>
+                <li>Random Forest Regressor (Ensemble)</li>
+                <li>Gradient Boosting Regressor</li>
+            </ul>
+        </div>
+
+        <div class="col-4" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: var(--radius-md); padding: 1.25rem;">
+            <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem;">3. Deployment & Web App</h3>
+            <ul style="padding-left: 1.2rem; font-size: 0.88rem; color: #475569; line-height: 1.6;">
+                <li>Full Scikit-Learn Pipeline Serialization via Joblib</li>
+                <li>Flask Microframework for Web UI & JSON API</li>
+                <li>Real-time Validation & BDT Formatting</li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+<!-- API DOCUMENTATION -->
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">
+            <span>🔌</span> RESTful JSON API Documentation
+        </h2>
+        <span class="tag-badge" style="background: #f0fdf4; color: #166534; border-color: #bbf7d0;">POST /api/predict</span>
+    </div>
+
+    <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 1rem;">
+        Integrate the Home Rent Prediction Engine directly into your mobile app or external frontend using the REST API endpoint:
+    </p>
+
+    <div style="background: #0f172a; color: #f8fafc; border-radius: var(--radius-md); padding: 1.25rem; font-family: 'JetBrains Mono', monospace; font-size: 0.88rem; overflow-x: auto; margin-bottom: 1.5rem;">
+        <span style="color: #94a3b8;">// HTTP POST Request</span><br>
+        <span style="color: #38bdf8;">POST</span> http://127.0.0.1:5000/api/predict<br>
+        <span style="color: #a855f7;">Content-Type:</span> application/json<br><br>
+        {<br>
+        &nbsp;&nbsp;<span style="color: #4ade80;">"location"</span>: <span style="color: #fbbf24;">"Mirpur"</span>,<br>
+        &nbsp;&nbsp;<span style="color: #4ade80;">"property_type"</span>: <span style="color: #fbbf24;">"Apartment"</span>,<br>
+        &nbsp;&nbsp;<span style="color: #4ade80;">"bedrooms"</span>: <span style="color: #f87171;">3</span>,<br>
+        &nbsp;&nbsp;<span style="color: #4ade80;">"bathrooms"</span>: <span style="color: #f87171;">2</span>,<br>
+        &nbsp;&nbsp;<span style="color: #4ade80;">"house_size"</span>: <span style="color: #f87171;">1200</span>,<br>
+        &nbsp;&nbsp;<span style="color: #4ade80;">"floor"</span>: <span style="color: #f87171;">4</span>,<br>
+        &nbsp;&nbsp;<span style="color: #4ade80;">"total_floors"</span>: <span style="color: #f87171;">8</span>,<br>
+        &nbsp;&nbsp;<span style="color: #4ade80;">"furnished"</span>: <span style="color: #fbbf24;">"Yes"</span>,<br>
+        &nbsp;&nbsp;<span style="color: #4ade80;">"parking"</span>: <span style="color: #fbbf24;">"Yes"</span>,<br>
+        &nbsp;&nbsp;<span style="color: #4ade80;">"balcony"</span>: <span style="color: #fbbf24;">"Yes"</span>,<br>
+        &nbsp;&nbsp;<span style="color: #4ade80;">"age"</span>: <span style="color: #f87171;">5</span><br>
+        }
+    </div>
+
+    <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.5rem;">Sample Response (200 OK):</h4>
+    <div style="background: #0f172a; color: #f8fafc; border-radius: var(--radius-md); padding: 1.25rem; font-family: 'JetBrains Mono', monospace; font-size: 0.88rem; overflow-x: auto;">
+        {<br>
+        &nbsp;&nbsp;<span style="color: #4ade80;">"status"</span>: <span style="color: #fbbf24;">"success"</span>,<br>
+        &nbsp;&nbsp;<span style="color: #4ade80;">"currency"</span>: <span style="color: #fbbf24;">"BDT (৳)"</span>,<br>
+        &nbsp;&nbsp;<span style="color: #4ade80;">"predicted_rent"</span>: <span style="color: #f87171;">25500</span>,<br>
+        &nbsp;&nbsp;<span style="color: #4ade80;">"formatted_rent"</span>: <span style="color: #fbbf24;">"৳ 25,500"</span>,<br>
+        &nbsp;&nbsp;<span style="color: #4ade80;">"model_used"</span>: <span style="color: #fbbf24;">"Random Forest Regressor"</span>,<br>
+        &nbsp;&nbsp;<span style="color: #4ade80;">"model_r2_score"</span>: <span style="color: #f87171;">0.932</span><br>
+        }
+    </div>
+</div>
+{% endblock %}

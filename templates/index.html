@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% block title %}Predict Home Rent - ML Model{% endblock %}
+
+{% block content %}
+<!-- HERO BANNER -->
+<section class="hero-banner">
+    <h1 class="hero-title">Home Rent Prediction System</h1>
+    <p class="hero-subtitle">
+        Accurately estimate monthly residential rent in Dhaka, Bangladesh using trained Machine Learning models with multi-feature analysis.
+    </p>
+    <div class="hero-tags">
+        <span class="tag-badge">🤖 Best Model: {{ metadata.best_model }}</span>
+        <span class="tag-badge">📊 Model R² Score: {{ metadata.r2_score }} ({{ metadata.accuracy_percent }}%)</span>
+        <span class="tag-badge">📍 Focus: Dhaka Real Estate</span>
+    </div>
+</section>
+
+<!-- PREDICTION FORM CARD -->
+<div class="card" id="prediction-form" style="max-width: 960px; margin: 0 auto;">
+    <div class="card-header">
+        <div>
+            <h2 class="card-title">
+                <span>🏡</span> Property Specification Form
+            </h2>
+            <p style="color: var(--text-muted); font-size: 0.88rem; margin-top: 0.2rem;">
+                Fill in the details below to predict the estimated monthly rental price in <strong>BDT (৳)</strong>.
+            </p>
+        </div>
+    </div>
+
+    <!-- Quick Presets -->
+    <div class="quick-presets">
+        <span class="preset-title">⚡ Quick Test Presets:</span>
+        <button type="button" class="preset-btn" data-preset="mirpur-family">Mirpur 3BHK Flat</button>
+        <button type="button" class="preset-btn" data-preset="gulshan-luxury">Gulshan Luxury Duplex</button>
+        <button type="button" class="preset-btn" data-preset="dhanmondi-3bhk">Dhanmondi Modern 3BHK</button>
+        <button type="button" class="preset-btn" data-preset="uttara-studio">Uttara Studio Apartment</button>
+    </div>
+
+    <form action="{{ url_for('predict') }}" method="POST" id="predictionForm">
+        <div class="form-grid">
+            
+            <!-- 1. Location -->
+            <div class="col-6 form-group">
+                <label for="location" class="form-label">
+                    <span>📍 Location / Area</span>
+                    <span class="label-hint">Dhaka City</span>
+                </label>
+                <select name="location" id="location" class="form-select" required>
+                    <option value="" disabled {% if not form_data %}selected{% endif %}>Select Location</option>
+                    {% for loc in locations %}
+                        <option value="{{ loc }}" {% if form_data and form_data.location == loc %}selected{% elif not form_data and loc == 'Mirpur' %}selected{% endif %}>{{ loc }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- 2. Property Type -->
+            <div class="col-6 form-group">
+                <label for="property_type" class="form-label">
+                    <span>🏢 Property Type</span>
+                </label>
+                <select name="property_type" id="property_type" class="form-select" required>
+                    {% for ptype in property_types %}
+                        <option value="{{ ptype }}" {% if form_data and form_data.property_type == ptype %}selected{% elif not form_data and ptype == 'Apartment' %}selected{% endif %}>{{ ptype }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- 3. Bedrooms -->
+            <div class="col-4 form-group">
+                <label for="bedrooms" class="form-label">
+                    <span>🛏️ Bedrooms</span>
+                </label>
+                <input type="number" name="bedrooms" id="bedrooms" class="form-control" min="1" max="15" value="{{ form_data.bedrooms if form_data else 3 }}" required>
+            </div>
+
+            <!-- 4. Bathrooms -->
+            <div class="col-4 form-group">
+                <label for="bathrooms" class="form-label">
+                    <span>🚿 Bathrooms</span>
+                </label>
+                <input type="number" name="bathrooms" id="bathrooms" class="form-control" min="1" max="15" value="{{ form_data.bathrooms if form_data else 2 }}" required>
+            </div>
+
+            <!-- 5. House Size -->
+            <div class="col-4 form-group">
+                <label for="house_size" class="form-label">
+                    <span>📐 House Size</span>
+                    <span class="label-hint">sqft</span>
+                </label>
+                <input type="number" name="house_size" id="house_size" class="form-control" min="100" max="10000" step="10" value="{{ form_data.house_size if form_data else 1200 }}" required>
+            </div>
+
+            <!-- 6. Floor -->
+            <div class="col-3 form-group">
+                <label for="floor" class="form-label">
+                    <span>🔢 Floor No.</span>
+                </label>
+                <input type="number" name="floor" id="floor" class="form-control" min="1" max="50" value="{{ form_data.floor if form_data else 4 }}" required>
+            </div>
+
+            <!-- 7. Total Floors -->
+            <div class="col-3 form-group">
+                <label for="total_floors" class="form-label">
+                    <span>🏗️ Total Floors</span>
+                </label>
+                <input type="number" name="total_floors" id="total_floors" class="form-control" min="1" max="50" value="{{ form_data.total_floors if form_data else 8 }}" required>
+            </div>
+
+            <!-- 8. Furnished -->
+            <div class="col-3 form-group">
+                <label for="furnished" class="form-label">
+                    <span>🛋️ Furnished?</span>
+                </label>
+                <select name="furnished" id="furnished" class="form-select" required>
+                    <option value="No" {% if form_data and form_data.furnished == 'No' %}selected{% endif %}>No</option>
+                    <option value="Yes" {% if form_data and form_data.furnished == 'Yes' %}selected{% endif %}>Yes</option>
+                </select>
+            </div>
+
+            <!-- 9. Parking -->
+            <div class="col-3 form-group">
+                <label for="parking" class="form-label">
+                    <span>🚗 Parking?</span>
+                </label>
+                <select name="parking" id="parking" class="form-select" required>
+                    <option value="No" {% if form_data and form_data.parking == 'No' %}selected{% endif %}>No</option>
+                    <option value="Yes" {% if (form_data and form_data.parking == 'Yes') or (not form_data) %}selected{% endif %}>Yes</option>
+                </select>
+            </div>
+
+            <!-- 10. Balcony -->
+            <div class="col-6 form-group">
+                <label for="balcony" class="form-label">
+                    <span>🌿 Balcony / Veranda?</span>
+                </label>
+                <select name="balcony" id="balcony" class="form-select" required>
+                    <option value="Yes" {% if (form_data and form_data.balcony == 'Yes') or (not form_data) %}selected{% endif %}>Yes</option>
+                    <option value="No" {% if form_data and form_data.balcony == 'No' %}selected{% endif %}>No</option>
+                </select>
+            </div>
+
+            <!-- 11. Age of House -->
+            <div class="col-6 form-group">
+                <label for="age" class="form-label">
+                    <span>⏳ Building Age</span>
+                    <span class="label-hint">Years</span>
+                </label>
+                <input type="number" name="age" id="age" class="form-control" min="0" max="60" value="{{ form_data.age if form_data else 4 }}" required>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="col-12">
+                <button type="submit" class="btn-submit" id="submitBtn">
+                    <span>✨</span> Calculate Estimated Rent
+                </button>
+            </div>
+
+        </div>
+    </form>
+</div>
+{% endblock %}

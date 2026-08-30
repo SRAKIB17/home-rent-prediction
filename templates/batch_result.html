@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Batch Prediction Results{% endblock %}
+
+{% block content %}
+<section class="hero-banner" style="padding: 2.2rem 2rem;">
+    <h1 class="hero-title">Batch Prediction Results</h1>
+    <p class="hero-subtitle">
+        Successfully processed {{ total_records }} properties using Machine Learning model ({{ metadata.best_model }}).
+    </p>
+</section>
+
+<!-- Summary Statistics Metrics Row -->
+<div class="metrics-row" style="margin-bottom: 2rem;">
+    <div class="metric-box">
+        <div class="metric-val">{{ total_records }}</div>
+        <div class="metric-lbl">Properties Evaluated</div>
+    </div>
+    <div class="metric-box">
+        <div class="metric-val" style="color: #059669;">৳ {{ "{:,.0f}".format(avg_rent) }}</div>
+        <div class="metric-lbl">Average Predicted Rent</div>
+    </div>
+    <div class="metric-box">
+        <div class="metric-val" style="font-size: 1.15rem; padding-top: 0.2rem;">
+            ৳ {{ "{:,.0f}".format(min_rent) }} — ৳ {{ "{:,.0f}".format(max_rent) }}
+        </div>
+        <div class="metric-lbl">Rent Range (Min — Max)</div>
+    </div>
+</div>
+
+<!-- Table Card -->
+<div class="card" style="margin-bottom: 2rem;">
+    <div class="card-header" style="flex-wrap: wrap; gap: 1rem;">
+        <h2 class="card-title">
+            <span>📋</span> Predicted Properties Table
+        </h2>
+        <div style="display: flex; gap: 0.75rem;">
+            <form action="{{ url_for('download_batch_result') }}" method="POST" style="display: inline;">
+                <input type="hidden" name="csv_data" value="{{ raw_csv_output }}">
+                <button type="submit" class="btn-secondary" style="background: #059669; color: white; border-color: #059669;">
+                    <span>📥</span> Download Predicted CSV File
+                </button>
+            </form>
+            <a href="{{ url_for('batch_predict') }}" class="btn-secondary">
+                <span>🔄</span> Upload Another CSV
+            </a>
+        </div>
+    </div>
+
+    <div style="overflow-x: auto; max-height: 600px;">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Location</th>
+                    <th>Type</th>
+                    <th>Bed / Bath</th>
+                    <th>Size (sqft)</th>
+                    <th>Floor</th>
+                    <th>Furnished</th>
+                    <th>Parking</th>
+                    <th>Balcony</th>
+                    <th>Age</th>
+                    <th style="background: #e0f2fe; color: #0369a1; font-weight: 800;">Predicted Rent (BDT)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rows %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td><strong>{{ row.location }}</strong></td>
+                    <td>{{ row.property_type }}</td>
+                    <td>{{ row.bedrooms }}B / {{ row.bathrooms }}B</td>
+                    <td>{{ row.house_size }}</td>
+                    <td>{{ row.floor }}/{{ row.total_floors }}</td>
+                    <td>{{ row.furnished }}</td>
+                    <td>{{ row.parking }}</td>
+                    <td>{{ row.balcony }}</td>
+                    <td>{{ row.age }} yrs</td>
+                    <td style="background: #f0fdf4; font-weight: 800; color: #166534; font-size: 1rem;">
+                        ৳ {{ "{:,.0f}".format(row.predicted_monthly_rent) }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

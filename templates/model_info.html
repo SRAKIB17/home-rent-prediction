@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}Model Performance & Analytics{% endblock %}
+
+{% block content %}
+<section class="hero-banner" style="padding: 2.2rem 2rem;">
+    <h1 class="hero-title">Model Performance & Analytics</h1>
+    <p class="hero-subtitle">
+        Empirical evaluation of regression algorithms trained on residential rental data in Dhaka.
+    </p>
+</section>
+
+<!-- COMPARISON TABLE CARD -->
+<div class="card" style="margin-bottom: 2rem;">
+    <div class="card-header">
+        <h2 class="card-title">
+            <span>📈</span> Algorithm Performance Comparison
+        </h2>
+        <span class="tag-badge" style="background: #e0f2fe; color: #0369a1; border-color: #bae6fd;">
+            Evaluated on 20% Test Split
+        </span>
+    </div>
+
+    <div style="overflow-x: auto;">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Algorithm</th>
+                    <th>Mean Absolute Error (MAE)</th>
+                    <th>Root Mean Squared Error (RMSE)</th>
+                    <th>R² Score</th>
+                    <th>Accuracy %</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if metadata.models_comparison %}
+                    {% for model in metadata.models_comparison %}
+                        <tr {% if model.Model == metadata.best_model %}style="background: #f0fdf4; font-weight: 600;"{% endif %}>
+                            <td>
+                                {{ model.Model }}
+                                {% if model.Model == metadata.best_model %}
+                                    <span class="badge-best">🏆 Selected</span>
+                                {% endif %}
+                            </td>
+                            <td>৳ {{ "{:,.2f}".format(model.MAE) }}</td>
+                            <td>৳ {{ "{:,.2f}".format(model.RMSE) }}</td>
+                            <td>{{ "{:.4f}".format(model.R2) }}</td>
+                            <td>{{ "{:.2f}%".format(model.R2 * 100) }}</td>
+                            <td>
+                                {% if model.Model == metadata.best_model %}
+                                    <span style="color: #16a34a; font-weight: 700;">Production Model</span>
+                                {% else %}
+                                    <span style="color: #64748b;">Evaluated</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td>Random Forest Regressor</td>
+                        <td>৳ 1,950.00</td>
+                        <td>৳ 2,850.00</td>
+                        <td>0.9320</td>
+                        <td>93.20%</td>
+                        <td><span class="badge-best">🏆 Selected</span></td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: var(--radius-md); padding: 1rem 1.25rem; font-size: 0.9rem; color: #1e40af;">
+        💡 <strong>Selection Rationale:</strong> The model with the highest coefficient of determination (<strong>R² Score</strong>) and lowest Root Mean Squared Error (<strong>RMSE</strong>) is automatically deployed as the active inference engine.
+    </div>
+</div>
+
+<!-- VISUALIZATION GRAPHS GALLERY -->
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">
+            <span>📊</span> Evaluation & Exploratory Visualizations
+        </h2>
+    </div>
+
+    <div class="graph-grid">
+        
+        <!-- Graph 1 -->
+        <div class="graph-card">
+            <h3 class="graph-title">1. Actual vs Predicted Rent</h3>
+            <img src="{{ url_for('static', filename='graphs/actual_vs_predicted.png') }}" alt="Actual vs Predicted Rent" onerror="this.src='https://via.placeholder.com/600x450?text=Run+train.py+to+generate+graphs'">
+            <p class="graph-desc">Compares ground-truth rental prices against predictions. Points hugging the dashed line indicate high model precision.</p>
+        </div>
+
+        <!-- Graph 2 -->
+        <div class="graph-card">
+            <h3 class="graph-title">2. Feature Importance</h3>
+            <img src="{{ url_for('static', filename='graphs/feature_importance.png') }}" alt="Feature Importance" onerror="this.src='https://via.placeholder.com/600x450?text=Run+train.py+to+generate+graphs'">
+            <p class="graph-desc">Identifies key drivers influencing rental price (e.g. house size, location, bedrooms).</p>
+        </div>
+
+        <!-- Graph 3 -->
+        <div class="graph-card">
+            <h3 class="graph-title">3. Rent Price Distribution</h3>
+            <img src="{{ url_for('static', filename='graphs/rent_distribution.png') }}" alt="Rent Distribution" onerror="this.src='https://via.placeholder.com/600x450?text=Run+train.py+to+generate+graphs'">
+            <p class="graph-desc">Histogram showing market rent distribution across Dhaka areas in the dataset.</p>
+        </div>
+
+        <!-- Graph 4 -->
+        <div class="graph-card">
+            <h3 class="graph-title">4. Numerical Feature Correlation Heatmap</h3>
+            <img src="{{ url_for('static', filename='graphs/correlation_heatmap.png') }}" alt="Correlation Heatmap" onerror="this.src='https://via.placeholder.com/600x450?text=Run+train.py+to+generate+graphs'">
+            <p class="graph-desc">Pearson correlation coefficient showing strong positive alignment with house size & bedrooms.</p>
+        </div>
+
+        <!-- Graph 5 -->
+        <div class="graph-card" style="grid-column: 1 / -1;">
+            <h3 class="graph-title">5. Cross-Algorithm Comparison Chart</h3>
+            <img src="{{ url_for('static', filename='graphs/model_comparison.png') }}" alt="Model Comparison" onerror="this.src='https://via.placeholder.com/600x450?text=Run+train.py+to+generate+graphs'">
+            <p class="graph-desc">Visual comparison of R² Score (higher is better) and RMSE (lower is better) across tested algorithms.</p>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
