@@ -16,17 +16,53 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="{{ url_for('home') }}" class="brand-logo">
-                <div class="brand-icon">🏠</div>
-                <span>RentPredict<span class="brand-badge">ML AI</span></span>
+                <div class="brand-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                </div>
+                <span>RentPredict<span class="brand-badge">Mymensingh ML AI</span></span>
             </a>
             <ul class="nav-links">
-                <li><a href="{{ url_for('home') }}"
-                        class="{% if request.endpoint == 'home' %}active{% endif %}">Home</a></li>
-                <li><a href="{{ url_for('batch_predict') }}"
-                        class="{% if request.endpoint == 'batch_predict' %}active{% endif %}">Batch CSV Predict</a></li>
-                <li><a href="{{ url_for('model_info') }}"
-                        class="{% if request.endpoint == 'model_info' %}active{% endif %}">Model Performance</a></li>
-                <li><a href="{{ url_for('home') }}#prediction-form" class="nav-btn">Predict Now</a></li>
+                <li>
+                    <a href="{{ url_for('home') }}" class="{% if request.endpoint == 'home' %}active{% endif %}">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('batch_predict') }}" class="{% if request.endpoint == 'batch_predict' %}active{% endif %}">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                        </svg>
+                        <span>Batch CSV Predict</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('model_info') }}" class="{% if request.endpoint == 'model_info' %}active{% endif %}">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="20" x2="18" y2="10"></line>
+                            <line x1="12" y1="20" x2="12" y2="4"></line>
+                            <line x1="6" y1="20" x2="6" y2="14"></line>
+                        </svg>
+                        <span>Model Analytics</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('home') }}#prediction-form" class="nav-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px;">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                        </svg>
+                        <span>Predict Rent</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </nav>
@@ -38,7 +74,20 @@
         {% if messages %}
         {% for category, message in messages %}
         <div class="alert alert-{{ category }}">
-            <span>⚠️</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
+                {% if category == 'success' %}
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                {% elif category == 'danger' or category == 'error' %}
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="15" y1="9" x2="9" y2="15"></line>
+                <line x1="9" y1="9" x2="15" y2="15"></line>
+                {% else %}
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                {% endif %}
+            </svg>
             <span>{{ message }}</span>
         </div>
         {% endfor %}
