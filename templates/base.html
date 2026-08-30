@@ -17,7 +17,8 @@
         <div class="nav-container">
             <a href="{{ url_for('home') }}" class="brand-logo">
                 <div class="brand-icon">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                        stroke-linecap="round" stroke-linejoin="round">
                         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                         <polyline points="9 22 9 12 15 12 15 22"></polyline>
                     </svg>
@@ -27,7 +28,8 @@
             <ul class="nav-links">
                 <li>
                     <a href="{{ url_for('home') }}" class="{% if request.endpoint == 'home' %}active{% endif %}">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
                             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                             <polyline points="9 22 9 12 15 12 15 22"></polyline>
                         </svg>
@@ -35,8 +37,10 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ url_for('batch_predict') }}" class="{% if request.endpoint == 'batch_predict' %}active{% endif %}">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <a href="{{ url_for('batch_predict') }}"
+                        class="{% if request.endpoint == 'batch_predict' %}active{% endif %}">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
                             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                             <polyline points="14 2 14 8 20 8"></polyline>
                             <line x1="16" y1="13" x2="8" y2="13"></line>
@@ -46,8 +50,10 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ url_for('model_info') }}" class="{% if request.endpoint == 'model_info' %}active{% endif %}">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <a href="{{ url_for('model_info') }}"
+                        class="{% if request.endpoint == 'model_info' %}active{% endif %}">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
                             <line x1="18" y1="20" x2="18" y2="10"></line>
                             <line x1="12" y1="20" x2="12" y2="4"></line>
                             <line x1="6" y1="20" x2="6" y2="14"></line>
@@ -57,7 +63,8 @@
                 </li>
                 <li>
                     <a href="{{ url_for('home') }}#prediction-form" class="nav-btn">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"
+                            stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px;">
                             <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
                         </svg>
                         <span>Predict Rent</span>
@@ -74,7 +81,8 @@
         {% if messages %}
         {% for category, message in messages %}
         <div class="alert alert-{{ category }}">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
                 {% if category == 'success' %}
                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                 <polyline points="22 4 12 14.01 9 11.01"></polyline>
@@ -99,19 +107,168 @@
 
     <!-- FOOTER -->
     <footer class="footer">
-        <div class="footer-content">
-            <div>
-                <h4 style="color: white; margin-bottom: 0.3rem;">🏠 Home Rent Prediction System</h4>
-                <p>Machine Learning & Flask Academic Project | Mymensingh Real Estate Context</p>
+        <div class="footer-container">
+            <div class="footer-grid">
+                <!-- Column 1: Brand & Overview -->
+                <div class="footer-brand">
+                    <a href="{{ url_for('home') }}" class="footer-logo">
+                        <div class="footer-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                            </svg>
+                        </div>
+                        <span>RentPredict AI</span>
+                    </a>
+                    <p class="footer-desc">
+                        Advanced Machine Learning rental valuation engine tailored specifically for Mymensingh real
+                        estate. Accurate, multi-factor, and automated price estimations.
+                    </p>
+                    <div class="footer-status-badge">
+                        <span class="pulse-dot"></span>
+                        <span>Champion Engine Online (95.64% R²)</span>
+                    </div>
+                </div>
+
+                <!-- Column 2: Quick Navigation -->
+                <div>
+                    <h4 class="footer-heading">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                            <polyline points="2 17 12 22 22 17"></polyline>
+                            <polyline points="2 12 12 17 22 12"></polyline>
+                        </svg>
+                        System Tools
+                    </h4>
+                    <ul class="footer-links">
+                        <li>
+                            <a href="{{ url_for('home') }}#prediction-form">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                                <span>Single Property Valuation</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('batch_predict') }}">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                                <span>Batch CSV Multi-Valuation</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('model_info') }}">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                                <span>Model Analytics & Graphs</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('download_sample_csv') }}">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                                <span>Download CSV Template</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Tech Stack & Architecture -->
+                <div>
+                    <h4 class="footer-heading">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                        </svg>
+                        Core Stack
+                    </h4>
+                    <ul class="footer-links">
+                        <li>
+                            <a href="https://scikit-learn.org" target="_blank" rel="noopener">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                </svg>
+                                <span>Scikit-Learn Regression</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://flask.palletsprojects.com" target="_blank" rel="noopener">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                </svg>
+                                <span>Flask Microframework</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#!">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                </svg>
+                                <span>Gradient Boosting ML</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#!">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                </svg>
+                                <span>1,600 Mymensingh Records</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Mymensingh Real Estate Zones -->
+                <div>
+                    <h4 class="footer-heading">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        12 Prime Zones
+                    </h4>
+                    <div class="footer-chips-grid">
+                        <span class="footer-chip">Charpara</span>
+                        <span class="footer-chip">Town Hall</span>
+                        <span class="footer-chip">Kachijhuli</span>
+                        <span class="footer-chip">Ganginar Par</span>
+                        <span class="footer-chip">Maskanda</span>
+                        <span class="footer-chip">Notun Bazar</span>
+                        <span class="footer-chip">Shehora</span>
+                        <span class="footer-chip">Akua</span>
+                        <span class="footer-chip">Sankipara</span>
+                        <span class="footer-chip">Choto Bazar</span>
+                        <span class="footer-chip">Kewatkhali</span>
+                        <span class="footer-chip">Panditpara</span>
+                    </div>
+                </div>
             </div>
-            <div style="display: flex; gap: 1rem; align-items: center;">
-                <span class="tag-badge">Powered by Scikit-Learn</span>
-                <span class="tag-badge">Flask Framework</span>
+
+            <!-- Footer Bottom Strip -->
+            <div class="footer-bottom">
+                <div>
+                    &copy; 2026 <strong>RentPredict AI</strong> — Real Estate Machine Learning Valuation Engine for
+                    Mymensingh City.
+                </div>
+                <div class="footer-bottom-badges">
+                    <a href="#top" class="btn-scroll-top"
+                        onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="18 15 12 9 6 15"></polyline>
+                        </svg>
+                        <span>Top</span>
+                    </a>
+                </div>
             </div>
-        </div>
-        <div class="footer-copy">
-            &copy; 2026 Home Rent Prediction System. All rights reserved. Designed for School/College Demonstration &
-            Viva.
         </div>
     </footer>
 
