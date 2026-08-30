@@ -26,8 +26,6 @@
                         class="{% if request.endpoint == 'batch_predict' %}active{% endif %}">Batch CSV Predict</a></li>
                 <li><a href="{{ url_for('model_info') }}"
                         class="{% if request.endpoint == 'model_info' %}active{% endif %}">Model Performance</a></li>
-                <li><a href="{{ url_for('about') }}" class="{% if request.endpoint == 'about' %}active{% endif %}">About
-                        Project</a></li>
                 <li><a href="{{ url_for('home') }}#prediction-form" class="nav-btn">Predict Now</a></li>
             </ul>
         </div>

@@ -68,7 +68,6 @@ home-rent-prediction/
     ├── base.html              # Base Jinja2 layout (Navbar + Footer)
     ├── index.html             # Prediction form & hero section
     ├── result.html            # Prediction result card & breakdown with PNG download
-    ├── about.html             # Project background & API documentation
     └── model_info.html        # Model evaluation table & charts
 ```
 
